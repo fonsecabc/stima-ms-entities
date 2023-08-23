@@ -1,12 +1,12 @@
 import {
-    VerifyAccessTokenServiceFactory,
-    CreateEvaluationValidatorFactory,
-    CreateEvaluationServiceFactory,
+  VerifyAccessTokenServiceFactory,
+  CreateEvaluationValidatorFactory,
+  CreateEvaluationServiceFactory,
 } from '../../../main/factories'
 import { Sex } from '../../../domain/enums'
 import { InvalidParamError } from '../../errors'
 import { Evaluation } from '../../../domain/entities'
-import { handleErrorService } from '../../../application/tasks'
+import { handleErrorService } from '../../../application/services'
 import { HttpResponse, badRequest, invalidParams, success, unathorized } from '../../helpers'
 
 type Request = {
@@ -28,19 +28,19 @@ type Request = {
 }
 
 export async function createEvaluationController(request: Request): Promise<HttpResponse<Evaluation | Error>> {
-    try {
-        const isValid = await CreateEvaluationValidatorFactory.getInstance().make().validate(request)
-        if (isValid instanceof InvalidParamError) return invalidParams(isValid)
+  try {
+    const isValid = await CreateEvaluationValidatorFactory.getInstance().make().validate(request)
+    if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-        const isTokenValid = await VerifyAccessTokenServiceFactory.getInstance().make().perform(request)
-        if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
+    const isTokenValid = await VerifyAccessTokenServiceFactory.getInstance().make().perform(request)
+    if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
-        const evaluation = await CreateEvaluationServiceFactory.getInstance().make().perform(request)
+    const evaluation = await CreateEvaluationServiceFactory.getInstance().make().perform(request)
 
-        return success(evaluation)
-    } catch (err: any) {
-        const error = await handleErrorService({ err })
+    return success(evaluation)
+  } catch (err: any) {
+    const error = await handleErrorService({ err })
 
-        return badRequest(error)
-    }
+    return badRequest(error)
+  }
 }

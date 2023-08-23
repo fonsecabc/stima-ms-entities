@@ -2,11 +2,11 @@ import { EvaluationRepositoryContract } from '../../contracts'
 import { DeleteEvaluationUsecase } from '../../../domain/usecases'
 
 export class DeleteEvaluationService implements DeleteEvaluationUsecase {
-    constructor(
+  constructor(
         private readonly evaluationRepository: EvaluationRepositoryContract,
-    ) { }
+  ) { }
 
-    async perform({ uid }: DeleteEvaluationUsecase.Params): Promise<DeleteEvaluationUsecase.Response> {
-        return await this.evaluationRepository.delete({ uid })
-    }
+  async perform({ uid }: DeleteEvaluationUsecase.Params): Promise<DeleteEvaluationUsecase.Response> {
+    return await this.evaluationRepository.delete({ uid })
+  }
 }

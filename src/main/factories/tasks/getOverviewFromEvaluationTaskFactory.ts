@@ -1,17 +1,17 @@
-import { GetOverviewFromEvaluationTask } from '../../../application/tasks'
+import { GetOverviewFromEvaluationTask } from '../../../application/services'
 
 export class GetOverviewFromEvaluationTaskFactory {
-    private static instance: GetOverviewFromEvaluationTaskFactory
+  private static instance: GetOverviewFromEvaluationTaskFactory
 
-    public static getInstance(): GetOverviewFromEvaluationTaskFactory {
-        if (!this.instance) {
-            this.instance = new GetOverviewFromEvaluationTaskFactory()
-        }
-
-        return this.instance
+  public static getInstance(): GetOverviewFromEvaluationTaskFactory {
+    if (!this.instance) {
+      this.instance = new GetOverviewFromEvaluationTaskFactory()
     }
 
-    public make(): GetOverviewFromEvaluationTask {
-        return new GetOverviewFromEvaluationTask()
-    }
+    return this.instance
+  }
+
+  public make(): GetOverviewFromEvaluationTask {
+    return new GetOverviewFromEvaluationTask()
+  }
 }

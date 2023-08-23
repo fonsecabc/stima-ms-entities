@@ -1,29 +1,44 @@
-import { cors } from '../config'
-import { Routes, methodNotAllowed, undefinedRoute } from '../../presentation/helpers'
+import { cors, variables } from '../config'
+import { NotFoundError } from '../../domain/errors'
+import { InvalidParamError } from '../../presentation/errors'
+import { handleErrorService } from '../../application/services'
+import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '../../presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
+import { decrypt } from 'sjcl'
 
 export function defineHttpService(routes: Routes[]): HttpsFunction {
-    return https.onRequest(
-        async (req: Request, res: Response) => {
-            cors(req, res, async () => {
-                const getResponse = async () => {
-                    const request = req.method === 'GET' ? req.query : req.body
-                    const route = routes.find((route) => route.path === req.url.split('?')[0])
+  return https.onRequest(
+    async (req: Request, res: Response) => {
+      cors(req, res, async () => {
+        const encryptedRequest = req.method === 'GET' ? req.query : req.body
+        const request = decrypt(variables.apiKey, encryptedRequest)
 
-                    if (!route) return undefinedRoute()
-                    if (route.method !== req.method) return methodNotAllowed()
+        const getResponse = async () => {
+          const route = routes.find((route) => route.path === req.url)
 
-                    return await route.handler(request)
-                }
+          if (!route) return undefinedRoute()
+          if (route.method !== req.method) return methodNotAllowed()
 
-                const response = await getResponse()
+          try {
+            return await route.handler(request)
+          } catch (error: any) {
+            const err = await handleErrorService({ err: error })
 
-                const isValid = !!(response.statusCode >= 200 && response.statusCode <= 299)
-                const data = (isValid) ? response.data : { error: response.data.message }
+            if (err instanceof NotFoundError) return notFound(err)
+            if (err instanceof InvalidParamError) return invalidParams(err)
 
-                res.status(response.statusCode).send(data)
-            })
+            return badRequest(err)
+          }
         }
-    )
+
+        const response = await getResponse()
+
+        const isValid = !!(response.statusCode >= 200 && response.statusCode <= 299)
+        const data = (isValid) ? response.data : { error: response.data.message }
+
+        res.status(response.statusCode).send(data)
+      })
+    }
+  )
 }

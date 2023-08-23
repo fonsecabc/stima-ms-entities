@@ -1,8 +1,8 @@
 import {
-    Client,
-    Evaluation,
-    EvaluationListObject,
-    GetQuery,
+  Client,
+  Evaluation,
+  EvaluationListObject,
+  GetQuery,
 } from '../../../domain/entities'
 
 export interface EvaluationRepositoryContract {

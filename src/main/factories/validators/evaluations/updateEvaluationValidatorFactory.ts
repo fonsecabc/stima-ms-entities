@@ -1,26 +1,26 @@
 import {
-    ValidatorsInterface,
-    ValidationComposite,
-    RequireParamValidation,
+  ValidatorsInterface,
+  ValidationComposite,
+  RequireParamValidation,
 } from '../../../../infra/validators'
 
 export class UpdateEvaluationValidatorFactory {
-    private static instance: UpdateEvaluationValidatorFactory
+  private static instance: UpdateEvaluationValidatorFactory
 
-    public static getInstance(): UpdateEvaluationValidatorFactory {
-        if (!this.instance) {
-            this.instance = new UpdateEvaluationValidatorFactory()
-        }
-
-        return this.instance
+  public static getInstance(): UpdateEvaluationValidatorFactory {
+    if (!this.instance) {
+      this.instance = new UpdateEvaluationValidatorFactory()
     }
 
-    public make(): ValidationComposite {
-        const validations: ValidatorsInterface[] = []
-        for (const field of ['accessToken', 'uid', 'attrs']) {
-            validations.push(new RequireParamValidation(field))
-        }
+    return this.instance
+  }
 
-        return new ValidationComposite(validations)
+  public make(): ValidationComposite {
+    const validations: ValidatorsInterface[] = []
+    for (const field of ['accessToken', 'uid', 'attrs']) {
+      validations.push(new RequireParamValidation(field))
     }
+
+    return new ValidationComposite(validations)
+  }
 }

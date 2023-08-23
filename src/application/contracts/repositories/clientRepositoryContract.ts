@@ -1,7 +1,7 @@
 import {
-    Client,
-    ClientListObject,
-    GetQuery,
+  Client,
+  ClientListObject,
+  GetQuery,
 } from '../../../domain/entities'
 import { Sex } from '../../../domain/enums'
 

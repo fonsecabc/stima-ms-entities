@@ -3,9 +3,9 @@ import { createHash } from 'crypto'
 
 
 export class HashRepository implements HashRepositoryContract {
-    constructor() { }
+  constructor() { }
 
-    async hashString(hash: HashRepositoryContract.HashString.Params): Promise<HashRepositoryContract.HashString.Response> {
-        return createHash('sha256').update(hash).digest('hex')
-    }
+  async hashString(hash: HashRepositoryContract.HashString.Params): Promise<HashRepositoryContract.HashString.Response> {
+    return createHash('sha256').update(hash).digest('hex')
+  }
 }

@@ -2,19 +2,19 @@ import { ClientRepositoryFactory } from '../../repositories'
 import { UpdateClientService } from '../../../../application/services'
 
 export class UpdateClientServiceFactory {
-    private static instance: UpdateClientServiceFactory
+  private static instance: UpdateClientServiceFactory
 
-    public static getInstance(): UpdateClientServiceFactory {
-        if (!this.instance) {
-            this.instance = new UpdateClientServiceFactory()
-        }
-
-        return this.instance
+  public static getInstance(): UpdateClientServiceFactory {
+    if (!this.instance) {
+      this.instance = new UpdateClientServiceFactory()
     }
 
-    public make(): UpdateClientService {
-        return new UpdateClientService(
-            ClientRepositoryFactory.getInstance().make()
-        )
-    }
+    return this.instance
+  }
+
+  public make(): UpdateClientService {
+    return new UpdateClientService(
+      ClientRepositoryFactory.getInstance().make()
+    )
+  }
 }

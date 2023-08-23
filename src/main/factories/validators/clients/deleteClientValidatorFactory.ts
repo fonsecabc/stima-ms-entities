@@ -1,26 +1,26 @@
 import {
-    ValidatorsInterface,
-    ValidationComposite,
-    RequireParamValidation,
+  ValidatorsInterface,
+  ValidationComposite,
+  RequireParamValidation,
 } from '../../../../infra/validators'
 
 export class DeleteClientValidatorFactory {
-    private static instance: DeleteClientValidatorFactory
+  private static instance: DeleteClientValidatorFactory
 
-    public static getInstance(): DeleteClientValidatorFactory {
-        if (!this.instance) {
-            this.instance = new DeleteClientValidatorFactory()
-        }
-
-        return this.instance
+  public static getInstance(): DeleteClientValidatorFactory {
+    if (!this.instance) {
+      this.instance = new DeleteClientValidatorFactory()
     }
 
-    public make(): ValidationComposite {
-        const validations: ValidatorsInterface[] = []
-        for (const field of ['accessToken', 'uid']) {
-            validations.push(new RequireParamValidation(field))
-        }
+    return this.instance
+  }
 
-        return new ValidationComposite(validations)
+  public make(): ValidationComposite {
+    const validations: ValidatorsInterface[] = []
+    for (const field of ['accessToken', 'uid']) {
+      validations.push(new RequireParamValidation(field))
     }
+
+    return new ValidationComposite(validations)
+  }
 }

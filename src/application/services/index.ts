@@ -12,3 +12,6 @@ export * from './evaluations/deleteEvaluationService'
 export * from './evaluations/generateEvaluationUidService'
 
 export * from './auth/verifyAccessTokenService'
+
+export * from './tasks/handleErrorService'
+export * from './tasks/getOverviewFromEvaluationTask'

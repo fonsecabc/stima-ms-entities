@@ -3,14 +3,14 @@ import { ValidatorsInterface } from '../validatorsInterface'
 import validator from 'validator'
 
 export class EmailValidation implements ValidatorsInterface {
-    constructor(
+  constructor(
         private readonly paramName: string
-    ) { }
+  ) { }
 
-    async validate(input: any): Promise<true | Error> {
-        const isValid = validator.isEmail(input[this.paramName])
-        if (!isValid) return new InvalidParamError('email')
+  async validate(input: any): Promise<true | Error> {
+    const isValid = validator.isEmail(input[this.paramName])
+    if (!isValid) return new InvalidParamError('email')
 
-        return true
-    }
+    return true
+  }
 }
