@@ -1,4 +1,4 @@
-import { GetOverviewFromEvaluationUsecase } from '../../domain/usecases'
+import { GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
 
 export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationUsecase {
   async perform({ evaluationsEntitiesList }: GetOverviewFromEvaluationUsecase.Params): Promise<GetOverviewFromEvaluationUsecase.Response> {

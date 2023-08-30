@@ -14,14 +14,9 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
   }
 
   async create(params: EvaluationRepositoryContract.Create.Params): Promise<EvaluationRepositoryContract.Create.Response> {
-    const { uid, userUid, client, bioimpedance = {}, measurements = {}, nutricionistForm = {} } = params
+    const { uid } = params
     const evaluation: Evaluation = {
-      uid,
-      userUid,
-      client: client,
-      bioimpedance: JSON.stringify(bioimpedance),
-      measurements: JSON.stringify(measurements),
-      nutricionistForm: JSON.stringify(nutricionistForm),
+      ...params,
       nutritionalRoutineStatus: NutritionalRoutineStatus.NOT_REQUESTED,
       createdAt: new Date(),
     }

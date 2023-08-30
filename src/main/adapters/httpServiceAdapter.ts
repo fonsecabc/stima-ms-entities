@@ -1,20 +1,18 @@
-import { cors, variables } from '../config'
+import { cors } from '../config'
 import { NotFoundError } from '../../domain/errors'
 import { InvalidParamError } from '../../presentation/errors'
 import { handleErrorService } from '../../application/services'
 import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '../../presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
-import { decrypt } from 'sjcl'
+
 
 export function defineHttpService(routes: Routes[]): HttpsFunction {
   return https.onRequest(
     async (req: Request, res: Response) => {
       cors(req, res, async () => {
-        const encryptedRequest = req.method === 'GET' ? req.query : req.body
-        const request = decrypt(variables.apiKey, encryptedRequest)
-
         const getResponse = async () => {
+          const request = req.method === 'GET' ? req.query : req.body
           const route = routes.find((route) => route.path === req.url)
 
           if (!route) return undefinedRoute()

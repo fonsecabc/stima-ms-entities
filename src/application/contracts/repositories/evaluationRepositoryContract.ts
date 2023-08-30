@@ -1,8 +1,11 @@
 import {
+  Bioimpedance,
   Client,
   Evaluation,
   EvaluationListObject,
   GetQuery,
+  Measurements,
+  NutritionistForm,
 } from '../../../domain/entities'
 
 export interface EvaluationRepositoryContract {
@@ -20,9 +23,9 @@ export namespace EvaluationRepositoryContract {
             uid: string
             userUid: string
             client: Client
-            bioimpedance: object
-            measurements: object
-            nutricionistForm: object
+            bioimpedance?: Bioimpedance
+            measurements?: Measurements
+            nutricionistForm?: NutritionistForm
         }
 
         export type Response = Evaluation

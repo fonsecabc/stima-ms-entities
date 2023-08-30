@@ -9,7 +9,7 @@ export class FirebaseRepository implements FirebaseRepositoryContract {
   public storage: firebase.storage.Storage
 
   constructor(
-        private readonly firebaseAdminSdk: any
+    private readonly firebaseAdminSdk: any
   ) {
     this.app = firebase.apps.length ? firebase.app() : firebase.initializeApp({ credential: firebase.credential.cert(this.firebaseAdminSdk) })
     this.db = this.app.firestore()
