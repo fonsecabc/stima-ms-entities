@@ -13,6 +13,6 @@ export type Evaluation = {
     nutricionistForm?: NutritionistForm
     nutritionalRoutineStatus: NutritionalRoutineStatus
     nutritionalRoutineLink?: string
-    createdAt: any
-    deletedAt?: any
+    createdAt: Date
+    deletedAt?: Date
 }

@@ -10,7 +10,7 @@ export interface Client {
     sex: Sex
     weight: number
     height: number
-    lastEvaluatedAt?: any
-    createdAt: any
-    deletedAt?: any
+    lastEvaluatedAt?: Date
+    createdAt: Date
+    deletedAt?: Date
 }

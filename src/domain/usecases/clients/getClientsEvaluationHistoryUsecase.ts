@@ -23,7 +23,7 @@ export namespace GetClientsEvaluationHistoryUsecase {
             fatPercentage: number
             muscleMassPercentage: number
             visceralFat: number
-        }
+        } | undefined
         history: {
             weight: HistoryObject[]
             fatPercentage: HistoryObject[]
@@ -31,7 +31,6 @@ export namespace GetClientsEvaluationHistoryUsecase {
             basalMetabolicRate: HistoryObject[]
             visceralFat: HistoryObject[]
             metabolicAge: HistoryObject[]
-        }
-
+        } | undefined
     } | Error
 }

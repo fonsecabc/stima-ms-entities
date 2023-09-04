@@ -7,5 +7,5 @@ export interface EvaluationListObject {
     clientName: string
     nutritionalRoutineStatus: NutritionalRoutineStatus
     nutritionalRoutineLink?: string
-    createdAt: any
+    createdAt: Date
 }

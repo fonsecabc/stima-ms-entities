@@ -2,6 +2,8 @@ import { GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
 
 export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationUsecase {
   async perform({ evaluationsEntitiesList }: GetOverviewFromEvaluationUsecase.Params): Promise<GetOverviewFromEvaluationUsecase.Response> {
+    if (!evaluationsEntitiesList.length) return undefined
+
     const oldestEvaluation = evaluationsEntitiesList.reduce((prev, current) => {
       return prev.createdAt < current.createdAt ? prev : current
     })
@@ -10,59 +12,47 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationU
       return prev.createdAt > current.createdAt ? prev : current
     })
 
-    const newestBioimpedance = JSON.parse(newestEvaluation.bioimpedance)
-    const oldestBioimpedance = JSON.parse(oldestEvaluation.bioimpedance)
+    const newestBioimpedance = newestEvaluation.bioimpedance
+    const oldestBioimpedance = oldestEvaluation.bioimpedance
 
-    const weight = +newestBioimpedance.weight - +oldestBioimpedance.weight
-    const fatPercentage = +newestBioimpedance.fatPercentage - +oldestBioimpedance.fatPercentage
-    const muscleMassPercentage = +newestBioimpedance.muscleMassPercentage - +oldestBioimpedance.muscleMassPercentage
-    const visceralFat = +newestBioimpedance.visceralFat - +oldestBioimpedance.visceralFat
+    if (!newestBioimpedance || !oldestBioimpedance) return undefined
 
-    const weightHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.weight)
+    const overallResults = {
+      weight: newestEvaluation.client.weight - oldestEvaluation.client.weight,
+      fatPercentage: +newestBioimpedance.fatPercentage - +oldestBioimpedance.fatPercentage,
+      muscleMassPercentage: +newestBioimpedance.muscleMassPercentage - +oldestBioimpedance.muscleMassPercentage,
+      visceralFat: +newestBioimpedance.visceralFat - +oldestBioimpedance.visceralFat,
+    }
+
+    const history: GetOverviewFromEvaluationUsecase.History = {
+      weight: [],
+      fatPercentage: [],
+      muscleMassPercentage: [],
+      basalMetabolicRate: [],
+      metabolicAge: [],
+      visceralFat: [],
+    }
+
+    evaluationsEntitiesList.forEach((evaluation) => {
+      const client = evaluation.client
+      const createdAt = evaluation.createdAt
+      const bioimpedance = evaluation.bioimpedance
+
+      if (!bioimpedance || !client) return
+
+      history.weight.push(this.getHistoryObject(createdAt, client.weight))
+      history.fatPercentage.push(this.getHistoryObject(createdAt, bioimpedance.fatPercentage))
+      history.muscleMassPercentage.push(this.getHistoryObject(createdAt, bioimpedance.muscleMassPercentage))
+      history.visceralFat.push(this.getHistoryObject(createdAt, bioimpedance.visceralFat))
+      history.metabolicAge.push(this.getHistoryObject(createdAt, bioimpedance.metabolicAge))
+      history.basalMetabolicRate.push(this.getHistoryObject(createdAt, bioimpedance.basalMetabolicRate))
     })
 
-    const fatPercentageHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.fatPercentage)
-    })
-
-    const muscleMassPercentageHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.muscleMassPercentage)
-    })
-
-    const visceralFatHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.visceralFat)
-    })
-
-    const metabolicAgeHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.metabolicAge)
-    })
-
-    const basalMetabolicRateHistory = evaluationsEntitiesList.map((evaluation) => {
-      const bioimpedance = JSON.parse(evaluation.bioimpedance)
-      return this.getHistoryObject(evaluation.createdAt, +bioimpedance.basalMetabolicRate)
-    })
+    if (!history.weight.length) return undefined
 
     return {
-      overallResults: {
-        weight,
-        fatPercentage,
-        muscleMassPercentage,
-        visceralFat,
-      },
-      history: {
-        weight: weightHistory,
-        fatPercentage: fatPercentageHistory,
-        muscleMassPercentage: muscleMassPercentageHistory,
-        basalMetabolicRate: basalMetabolicRateHistory,
-        visceralFat: visceralFatHistory,
-        metabolicAge: metabolicAgeHistory,
-      },
+      overallResults,
+      history,
     }
   }
 

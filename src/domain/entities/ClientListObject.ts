@@ -3,6 +3,6 @@ export interface ClientListObject {
     userUid: string
     name: string
     phone: string
-    lastEvaluatedAt?: any
-    createdAt: any
+    lastEvaluatedAt?: Date
+    createdAt: Date
 }

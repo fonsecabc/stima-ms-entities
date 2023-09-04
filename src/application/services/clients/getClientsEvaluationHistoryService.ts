@@ -1,8 +1,8 @@
-import { EvaluationRepositoryContract } from '../../contracts'
-import { GetClientUsecase, GetClientsEvaluationHistoryUsecase, GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
-import { GetType, QueryOperators } from '../../../domain/enums'
 import { Client, Evaluation } from '../../../domain/entities'
+import { EvaluationRepositoryContract } from '../../contracts'
+import { GetType, QueryOperators } from '../../../domain/enums'
 import { NoDataError, NotFoundError } from '../../../domain/errors'
+import { GetClientUsecase, GetClientsEvaluationHistoryUsecase, GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
 
 export class GetClientsEvaluationHistoryService implements GetClientsEvaluationHistoryUsecase {
   constructor(
@@ -48,14 +48,14 @@ export class GetClientsEvaluationHistoryService implements GetClientsEvaluationH
       }
     })
 
-    const { overallResults, history } = await this.getOverallResultsTask.perform({ evaluationsEntitiesList })
+    const overallResultsAndHistory = await this.getOverallResultsTask.perform({ evaluationsEntitiesList })
 
     return {
       client,
       evaluationList,
       newestEvaluation,
-      overallResults,
-      history,
+      overallResults: overallResultsAndHistory?.overallResults,
+      history: overallResultsAndHistory?.history,
     }
   }
 }
