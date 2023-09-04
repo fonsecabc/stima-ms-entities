@@ -10,7 +10,7 @@ export namespace GetClientsEvaluationHistoryUsecase {
     }
 
     export type HistoryObject = {
-        date: string
+        date: Date
         value: number
     }
 

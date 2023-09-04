@@ -29,15 +29,17 @@ export class ClientRepository implements ClientRepositoryContract {
 
   async get(params: ClientRepositoryContract.Get.Params): Promise<ClientRepositoryContract.Get.Response> {
     const { uid } = params
-    const client: Client = (
-            await this.db.collection('clients').doc(uid).get()
-        ).data() as Client
+    const client = (
+      await this.db.collection('clients').doc(uid).get()
+    ).data()
 
-    return client ? {
-      ...client,
-      createdAt: client?.createdAt.toDate(),
-      lastEvaluatedAt: client?.lastEvaluatedAt && client?.lastEvaluatedAt.toDate(),
-    } : undefined
+    return client 
+      ? {
+        ...client,
+        createdAt: client?.createdAt.toDate(),
+        lastEvaluatedAt: client?.lastEvaluatedAt && client?.lastEvaluatedAt.toDate(),
+      } as Client 
+      : undefined
   }
 
   async getList(params: ClientRepositoryContract.GetList.Params): Promise<ClientRepositoryContract.GetList.Response> {

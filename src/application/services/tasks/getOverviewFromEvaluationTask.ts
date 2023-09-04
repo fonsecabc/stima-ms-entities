@@ -56,7 +56,7 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationU
     }
   }
 
-  private getHistoryObject(date: string, value: number) {
+  private getHistoryObject(date: Date, value: number) {
     return {
       date,
       value,

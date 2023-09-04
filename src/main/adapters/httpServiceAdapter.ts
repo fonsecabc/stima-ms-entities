@@ -13,7 +13,8 @@ export function defineHttpService(routes: Routes[]): HttpsFunction {
       cors(req, res, async () => {
         const getResponse = async () => {
           const request = req.method === 'GET' ? req.query : req.body
-          const route = routes.find((route) => route.path === req.url)
+          const path = req.method === 'GET' ? req.path.split('?')[0] : req.path
+          const route = routes.find((route) => path === req.url)
 
           if (!route) return undefinedRoute()
           if (route.method !== req.method) return methodNotAllowed()

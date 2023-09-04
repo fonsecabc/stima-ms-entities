@@ -26,30 +26,30 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
   async get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response> {
     const { uid } = params
-    const evaluation: Evaluation = (await this.evaluationsRef.doc(uid).get()).data() as Evaluation
+    const evaluation = (await this.evaluationsRef.doc(uid).get()).data()
 
     return {
       ...evaluation,
       createdAt: evaluation?.createdAt.toDate(),
-    }
+    } as Evaluation
   }
 
   async getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response> {
     const { userUid } = params
     const evaluationList: EvaluationListObject[] = (
-            await this.evaluationsRef
-              .where('userUid', QueryOperators.EQUAL, userUid)
-              .select('uid', 'userUid', 'client', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
-              .get()
-        ).docs.map((doc) => {
-          const data = doc.data()
-          return {
-            ...data,
-            clientName: data.client.name,
-            clientUid: data.client.uid,
-            createdAt: data.createdAt.toDate(),
-          }
-        }) as EvaluationListObject[]
+      await this.evaluationsRef
+        .where('userUid', QueryOperators.EQUAL, userUid)
+        .select('uid', 'userUid', 'client', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
+        .get()
+    ).docs.map((doc) => {
+      const data = doc.data()
+      return {
+        ...data,
+        clientName: data.client.name,
+        clientUid: data.client.uid,
+        createdAt: data.createdAt.toDate(),
+      }
+    }) as EvaluationListObject[]
 
     return evaluationList
   }
