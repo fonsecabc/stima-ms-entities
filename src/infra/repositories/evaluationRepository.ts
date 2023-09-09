@@ -8,7 +8,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
   private readonly evaluationsRef: firestore.CollectionReference
 
   constructor(
-        private readonly db: firestore.Firestore,
+    private readonly db: firestore.Firestore,
   ) {
     this.evaluationsRef = this.db.collection('evaluations')
   }

@@ -33,13 +33,13 @@ export class ClientRepository implements ClientRepositoryContract {
       await this.db.collection('clients').doc(uid).get()
     ).data()
 
-    return client 
-      ? {
+    return client ?
+      {
         ...client,
         createdAt: client?.createdAt.toDate(),
         lastEvaluatedAt: client?.lastEvaluatedAt && client?.lastEvaluatedAt.toDate(),
-      } as Client 
-      : undefined
+      } as Client :
+      undefined
   }
 
   async getList(params: ClientRepositoryContract.GetList.Params): Promise<ClientRepositoryContract.GetList.Response> {
