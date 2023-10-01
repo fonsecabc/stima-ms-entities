@@ -1,4 +1,4 @@
-import { HttpResponse, invalidParams, success, unathorized } from '@/presentation/helpers'
+import { HttpResponse, badRequest, invalidParams, success, unathorized } from '@/presentation/helpers'
 import { Sex } from '@/domain/enums'
 import { InvalidParamError } from '@/domain/errors'
 import { Bioimpedance, Evaluation, Measurements, NutritionistForm } from '@/domain/entities'
@@ -32,5 +32,5 @@ export async function createEvaluationController(request: Request): Promise<Http
 
   const evaluation = await CreateEvaluationServiceFactory.getInstance().make().perform(request)
 
-  return success(evaluation)
+  return evaluation instanceof Error ? badRequest(evaluation) : success(evaluation)
 }

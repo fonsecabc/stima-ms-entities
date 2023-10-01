@@ -28,7 +28,7 @@ export namespace EvaluationRepositoryContract {
             nutricionistForm?: NutritionistForm
         }
 
-        export type Response = Evaluation
+        export type Response = Evaluation | undefined
     }
 
     export namespace Get {

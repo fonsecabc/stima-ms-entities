@@ -1,5 +1,6 @@
 import { CryptoAdapterContract } from '@/application/contracts/adapters'
 import { ClientRepositoryContract } from '@/application/contracts/repositories'
+import { CouldNotError } from '@/domain/errors'
 import { CreateClientUsecase } from '@/domain/usecases'
 
 export class CreateClientService implements CreateClientUsecase {
@@ -13,7 +14,10 @@ export class CreateClientService implements CreateClientUsecase {
 
     const uid = await this.cryptoAdapter.hashString(userUid + phone + dateOfBirth)
     const client = await this.clientRepository.get({ uid })
+    if (client) return client
 
-    return client ? client : await this.clientRepository.create({ uid, userUid, name, email, phone, dateOfBirth, sex, height, weight })
+    const createdClient = await this.clientRepository.create({ uid, userUid, name, email, phone, dateOfBirth, sex, height, weight })
+
+    return createdClient || new CouldNotError('create client') 
   }
 }

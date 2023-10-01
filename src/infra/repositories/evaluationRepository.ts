@@ -21,7 +21,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       createdAt: new Date(),
     }
 
-    return this.evaluationsRef.doc(uid).create(evaluation).then(() => evaluation)
+    return this.evaluationsRef.doc(uid).create(evaluation).then(() => evaluation).catch(() => undefined)
   }
 
   async get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response> {
@@ -100,20 +100,17 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
   async update(params: EvaluationRepositoryContract.Update.Params): Promise<EvaluationRepositoryContract.Update.Response> {
     const { uid, attrs } = params
 
-    const evaluation = await this.get({ uid })
-    if (!evaluation) return false
-
-    return this.evaluationsRef.doc(uid).update(attrs).then(() => true)
+    return this.evaluationsRef.doc(uid).update(attrs).then(() => true).catch(() => false)
   }
 
   async delete({ evaluation }: EvaluationRepositoryContract.Delete.Params): Promise<EvaluationRepositoryContract.Delete.Response> {
     const uid = evaluation.uid
     evaluation.deletedAt = new Date()
 
-    await this.db.collection('deleted_evaluations').doc(uid).create(evaluation)
-    await this.evaluationsRef.doc(uid).delete()
-
-    return true
+    return Promise.all([
+      this.db.collection('deleted_evaluations').doc(uid).create(evaluation),
+      this.evaluationsRef.doc(uid).delete()
+    ]).then(() => true).catch(() => false)
   }
 }
 

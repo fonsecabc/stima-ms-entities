@@ -1,4 +1,4 @@
-import { HttpResponse, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
+import { HttpResponse, badRequest, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
 import { InvalidParamError, NotFoundError } from '@/domain/errors'
 import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { UpdateClientServiceFactory } from '@/main/factories/services'
@@ -18,7 +18,7 @@ export async function updateClientController(request: Request): Promise<HttpResp
   if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const isUpdated = await UpdateClientServiceFactory.getInstance().make().perform(request)
-  if (!isUpdated) return notFound(new NotFoundError('client'))
+  if (isUpdated instanceof NotFoundError) return notFound(isUpdated)
 
-  return success(isUpdated)
+  return isUpdated instanceof Error ? badRequest(isUpdated) : success(isUpdated)
 }

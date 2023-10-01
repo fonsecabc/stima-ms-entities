@@ -27,5 +27,5 @@ export namespace CreateEvaluationUsecase {
     nutricionistForm?: NutritionistForm
   }
 
-  export type Response = Evaluation
+  export type Response = Evaluation | Error
 }

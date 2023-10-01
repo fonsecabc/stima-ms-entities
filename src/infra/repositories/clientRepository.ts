@@ -28,7 +28,7 @@ export class ClientRepository implements ClientRepositoryContract {
       createdAt: new Date(),
     }
 
-    return this.clientsRef.doc(uid).create(client).then(() => client)
+    return this.clientsRef.doc(uid).create(client).then(() => client).catch(() => undefined)
   }
 
   async get(params: ClientRepositoryContract.Get.Params): Promise<ClientRepositoryContract.Get.Response> {
@@ -88,20 +88,17 @@ export class ClientRepository implements ClientRepositoryContract {
   async update(params: ClientRepositoryContract.Update.Params): Promise<ClientRepositoryContract.Update.Response> {
     const { uid, attrs } = params
 
-    const client = await this.get({ uid })
-    if (!client) return false
-
-    return this.clientsRef.doc(uid).update(attrs).then(() => true)
+    return this.clientsRef.doc(uid).update(attrs).then(() => true).catch(() => false)
   }
 
   async delete({ client }: ClientRepositoryContract.Delete.Params): Promise<ClientRepositoryContract.Delete.Response> {
     const uid = client.uid
     client.deletedAt = new Date()
 
-    await this.db.collection('deleted_clients').doc(uid).create(client)
-    await this.clientsRef.doc(uid).delete()
-
-    return true
+    return Promise.all([
+      this.db.collection('deleted_clients').doc(uid).create(client),
+      this.clientsRef.doc(uid).delete()
+    ]).then(() => true).catch(() => false)
   }
 }
 

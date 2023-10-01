@@ -28,7 +28,7 @@ export namespace ClientRepositoryContract {
             weight: number
         }
 
-        export type Response = Client
+        export type Response = Client | undefined
     }
 
     export namespace Get {

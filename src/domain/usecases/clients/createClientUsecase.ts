@@ -17,5 +17,5 @@ export namespace CreateClientUsecase {
         weight: number
     }
 
-    export type Response = Client
+    export type Response = Client | Error
 }

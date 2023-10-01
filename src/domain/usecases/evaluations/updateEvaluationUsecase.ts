@@ -7,5 +7,5 @@ export namespace UpdateEvaluationUsecase {
         attrs: object
     }
 
-    export type Response = boolean
+    export type Response = true | Error
 }

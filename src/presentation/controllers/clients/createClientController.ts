@@ -1,4 +1,4 @@
-import { HttpResponse, invalidParams, success, unathorized } from '@/presentation/helpers'
+import { HttpResponse, badRequest, invalidParams, success, unathorized } from '@/presentation/helpers'
 import { Sex } from '@/domain/enums'
 import { Client } from '@/domain/entities'
 import { InvalidParamError } from '@/domain/errors'
@@ -27,5 +27,5 @@ export async function createClientController(request: Request): Promise<HttpResp
 
   const client = await CreateClientServiceFactory.getInstance().make().perform(request)
 
-  return success(client)
+  return client instanceof Error ? badRequest(client) : success(client)
 }
