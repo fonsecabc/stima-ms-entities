@@ -1,5 +1,6 @@
-import { initializeApp } from './app'
-import * as controllers from '../presentation/controllers'
+import './config/moduleAlias'
+import { initializeApp } from '@/main/app'
+import * as controllers from '@/presentation/controllers'
 
 const event = controllers.getClientsEvaluationHistoryController
 

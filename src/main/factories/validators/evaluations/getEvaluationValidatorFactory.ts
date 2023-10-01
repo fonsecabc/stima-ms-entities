@@ -2,7 +2,7 @@ import {
   ValidatorsInterface,
   ValidationComposite,
   RequireParamValidation,
-} from '../../../../infra/validators'
+} from '@/infra/validators'
 
 export class GetEvaluationValidatorFactory {
   private static instance: GetEvaluationValidatorFactory

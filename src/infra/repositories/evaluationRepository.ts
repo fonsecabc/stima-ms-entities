@@ -1,6 +1,6 @@
-import { EvaluationRepositoryContract } from '../../application/contracts'
-import { Evaluation, EvaluationListObject } from '../../domain/entities'
-import { NutritionalRoutineStatus, QueryOperators } from '../../domain/enums'
+import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
+import { Evaluation, EvaluationListObject } from '@/domain/entities'
+import { NutritionalRoutineStatus, QueryOperators } from '@/domain/enums'
 
 import { firestore } from 'firebase-admin'
 
@@ -106,17 +106,14 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
     return this.evaluationsRef.doc(uid).update(attrs).then(() => true)
   }
 
-  async delete(params: EvaluationRepositoryContract.Delete.Params): Promise<EvaluationRepositoryContract.Delete.Response> {
-    const { uid } = params
-    const evaluation = await this.get({ uid })
-    if (!evaluation) return false
-
+  async delete({ evaluation }: EvaluationRepositoryContract.Delete.Params): Promise<EvaluationRepositoryContract.Delete.Response> {
+    const uid = evaluation.uid
     evaluation.deletedAt = new Date()
 
-    return Promise.all([
-      this.db.collection('deleted_evaluations').doc(uid).create(evaluation),
-      this.evaluationsRef.doc(uid).delete(),
-    ]).then(() => true)
+    await this.db.collection('deleted_evaluations').doc(uid).create(evaluation)
+    await this.evaluationsRef.doc(uid).delete()
+
+    return true
   }
 }
 

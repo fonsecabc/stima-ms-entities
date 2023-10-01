@@ -1,5 +1,5 @@
-import { ClientRepositoryFactory } from '../..'
-import { GetClientService } from '../../../../application/services'
+import { ClientRepositoryFactory } from '@/main/factories/repositories'
+import { GetClientService } from '@/application/services'
 
 export class GetClientServiceFactory {
   private static instance: GetClientServiceFactory

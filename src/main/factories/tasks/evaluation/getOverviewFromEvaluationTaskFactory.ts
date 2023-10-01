@@ -1,4 +1,4 @@
-import { GetOverviewFromEvaluationTask } from '../../../application/services'
+import { GetOverviewFromEvaluationTask } from '@/application/tasks'
 
 export class GetOverviewFromEvaluationTaskFactory {
   private static instance: GetOverviewFromEvaluationTaskFactory

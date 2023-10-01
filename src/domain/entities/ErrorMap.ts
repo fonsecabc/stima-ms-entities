@@ -1,4 +1,4 @@
-import { InvalidParamError } from '../../presentation/errors'
+import { InvalidParamError } from '@/domain/errors'
 import { EntityAlreadyExistsError } from '../errors'
 
 export type ErrorMap = Map<string, Error>

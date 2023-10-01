@@ -1,7 +1,7 @@
 import { Client } from './Client'
 import { Bioimpedance } from './Bioimpedance'
 import { Measurements } from './Measurements'
-import { NutritionalRoutineStatus } from '../enums'
+import { NutritionalRoutineStatus } from '@/domain/enums'
 import { NutritionistForm } from './NutritionistForm'
 
 export type Evaluation = {

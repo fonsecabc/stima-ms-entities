@@ -1,11 +1,8 @@
-import {
-  VerifyAccessTokenServiceFactory,
-  DeleteClientValidatorFactory,
-  DeleteClientServiceFactory,
-} from '../../../main/factories'
-import { InvalidParamError } from '../../errors'
-import { HttpResponse, invalidParams, notFound, success, unathorized } from '../../helpers'
-import { NotFoundError } from '../../../domain/errors'
+import { HttpResponse, badRequest, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
+import { InvalidParamError, NotFoundError } from '@/domain/errors'
+import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+import { DeleteClientServiceFactory } from '@/main/factories/services'
+import { DeleteClientValidatorFactory } from '@/main/factories/validators'
 
 type Request = {
   accessToken: string
@@ -16,12 +13,13 @@ export async function deleteClientController(request: Request): Promise<HttpResp
   const isValid = await DeleteClientValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenServiceFactory.getInstance().make().perform(request)
+  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
   if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const isDeleted = await DeleteClientServiceFactory.getInstance().make().perform(request)
-  if (!isDeleted) return notFound(new NotFoundError('client'))
+  if (isDeleted instanceof NotFoundError) return notFound(isDeleted)
 
-
-  return success(isDeleted)
+  return isDeleted instanceof Error ?
+    badRequest(isDeleted) :
+    success(isDeleted)
 }

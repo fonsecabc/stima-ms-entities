@@ -1,5 +1,5 @@
-import { GetType } from '../../enums'
-import { Evaluation, EvaluationListObject, GetQuery } from '../../entities'
+import { GetType } from '@/domain/enums'
+import { Evaluation, EvaluationListObject, GetQuery } from '@/domain/entities'
 
 export interface GetEvaluationUsecase {
     perform(params: GetEvaluationUsecase.Params): Promise<GetEvaluationUsecase.Response>

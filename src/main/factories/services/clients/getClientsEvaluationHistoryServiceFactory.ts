@@ -1,5 +1,7 @@
-import { GetClientsEvaluationHistoryService } from '../../../../application/services'
-import { EvaluationRepositoryFactory, GetClientServiceFactory, GetOverviewFromEvaluationTaskFactory } from '../..'
+import { GetClientsEvaluationHistoryService } from '@/application/services'
+import { GetClientServiceFactory } from '@/main/factories/services'
+import { EvaluationRepositoryFactory } from '@/main/factories/repositories'
+import { GetOverviewFromEvaluationTaskFactory } from '@/main/factories/tasks'
 
 export class GetClientsEvaluationHistoryServiceFactory {
   private static instance: GetClientsEvaluationHistoryServiceFactory

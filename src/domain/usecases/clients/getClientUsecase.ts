@@ -1,5 +1,5 @@
-import { GetType } from '../../enums'
-import { Client, ClientListObject, GetQuery } from '../../entities'
+import { GetType } from '@/domain/enums'
+import { Client, ClientListObject, GetQuery } from '@/domain/entities'
 
 export interface GetClientUsecase {
     perform(params: GetClientUsecase.Params): Promise<GetClientUsecase.Response>

@@ -6,5 +6,5 @@ export namespace DeleteClientUsecase {
         uid: string
     }
 
-    export type Response = boolean
+    export type Response = true | Error
 }

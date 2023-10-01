@@ -1,5 +1,5 @@
-import { EvaluationRepositoryFactory } from '../..'
-import { DeleteEvaluationService } from '../../../../application/services'
+import { EvaluationRepositoryFactory } from '@/main/factories/repositories'
+import { DeleteEvaluationService } from '@/application/services'
 
 export class DeleteEvaluationServiceFactory {
   private static instance: DeleteEvaluationServiceFactory

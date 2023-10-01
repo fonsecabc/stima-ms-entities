@@ -1,11 +1,8 @@
-import {
-  GetClientsEvaluationHistoryValidatorFactory,
-  GetClientsEvaluationHistoryServiceFactory,
-} from '../../../main/factories'
-import { InvalidParamError } from '../../errors'
-import { NoDataError, NotFoundError } from '../../../domain/errors'
-import { GetClientsEvaluationHistoryUsecase } from '../../../domain/usecases'
-import { HttpResponse, invalidParams, noContent, notFound, success } from '../../helpers'
+import { HttpResponse, invalidParams, noContent, notFound, success } from '@/presentation/helpers'
+import { GetClientsEvaluationHistoryUsecase } from '@/domain/usecases'
+import { InvalidParamError, NoDataError, NotFoundError } from '@/domain/errors'
+import { GetClientsEvaluationHistoryServiceFactory } from '@/main/factories/services'
+import { GetClientsEvaluationHistoryValidatorFactory } from '@/main/factories/validators'
 
 type Request = {
   userUid: string

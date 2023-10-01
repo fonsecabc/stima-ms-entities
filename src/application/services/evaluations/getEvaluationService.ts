@@ -1,8 +1,7 @@
-import { GetType } from '../../../domain/enums'
-import { NotFoundError } from '../../../domain/errors'
-import { GetEvaluationUsecase } from '../../../domain/usecases'
-import { InvalidParamError } from '../../../presentation/errors'
-import { EvaluationRepositoryContract } from '../../contracts'
+import { GetType } from '@/domain/enums'
+import { NotFoundError, InvalidParamError } from '@/domain/errors'
+import { GetEvaluationUsecase } from '@/domain/usecases'
+import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
 
 export class GetEvaluationService implements GetEvaluationUsecase {
   constructor(

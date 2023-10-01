@@ -1,5 +1,6 @@
-import { CreateClientService } from '../../../../application/services'
-import { ClientRepositoryFactory, GenerateClientUidServiceFactory } from '../..'
+import { CryptoAdapterFactory } from '@/main/factories/adapters'
+import { ClientRepositoryFactory } from '@/main/factories/repositories'
+import { CreateClientService } from '@/application/services'
 
 export class CreateClientServiceFactory {
   private static instance: CreateClientServiceFactory
@@ -15,7 +16,7 @@ export class CreateClientServiceFactory {
   public make(): CreateClientService {
     return new CreateClientService(
       ClientRepositoryFactory.getInstance().make(),
-      GenerateClientUidServiceFactory.getInstance().make()
+      CryptoAdapterFactory.getInstance().make()
     )
   }
 }

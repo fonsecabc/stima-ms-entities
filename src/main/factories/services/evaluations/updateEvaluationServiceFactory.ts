@@ -1,5 +1,5 @@
-import { EvaluationRepositoryFactory } from '../..'
-import { UpdateEvaluationService } from '../../../../application/services'
+import { EvaluationRepositoryFactory } from '@/main/factories/repositories'
+import { UpdateEvaluationService } from '@/application/services'
 
 export class UpdateEvaluationServiceFactory {
   private static instance: UpdateEvaluationServiceFactory

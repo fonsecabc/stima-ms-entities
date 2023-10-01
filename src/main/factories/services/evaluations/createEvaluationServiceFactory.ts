@@ -1,10 +1,7 @@
-import {
-  UpdateClientServiceFactory,
-  CreateClientServiceFactory,
-  EvaluationRepositoryFactory,
-  GenerateEvaluationUidServiceFactory,
-} from '../..'
-import { CreateEvaluationService } from '../../../../application/services'
+import { CryptoAdapterFactory } from '@/main/factories/adapters'
+import { EvaluationRepositoryFactory } from '@/main/factories/repositories'
+import { CreateClientServiceFactory, UpdateClientServiceFactory } from '@/main/factories/services'
+import { CreateEvaluationService } from '@/application/services'
 
 export class CreateEvaluationServiceFactory {
   private static instance: CreateEvaluationServiceFactory
@@ -21,8 +18,8 @@ export class CreateEvaluationServiceFactory {
     return new CreateEvaluationService(
       EvaluationRepositoryFactory.getInstance().make(),
       UpdateClientServiceFactory.getInstance().make(),
-      GenerateEvaluationUidServiceFactory.getInstance().make(),
-      CreateClientServiceFactory.getInstance().make(),
+      CryptoAdapterFactory.getInstance().make(),
+      CreateClientServiceFactory.getInstance().make()
     )
   }
 }

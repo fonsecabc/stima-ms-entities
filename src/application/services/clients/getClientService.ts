@@ -1,12 +1,11 @@
-import { GetType } from '../../../domain/enums'
-import { NotFoundError } from '../../../domain/errors'
-import { GetClientUsecase } from '../../../domain/usecases'
-import { InvalidParamError } from '../../../presentation/errors'
-import { ClientRepositoryContract } from '../../contracts'
+import { GetType } from '@/domain/enums'
+import { NotFoundError, InvalidParamError } from '@/domain/errors'
+import { GetClientUsecase } from '@/domain/usecases'
+import { ClientRepositoryContract } from '@/application/contracts/repositories'
 
 export class GetClientService implements GetClientUsecase {
   constructor(
-        private readonly clientRepository: ClientRepositoryContract,
+    private readonly clientRepository: ClientRepositoryContract,
   ) { }
 
   async perform({ userUid, uid, type, query }: GetClientUsecase.Params): Promise<GetClientUsecase.Response> {

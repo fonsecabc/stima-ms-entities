@@ -1,4 +1,4 @@
-import { InvalidParamError } from '../../../presentation/errors'
+import { InvalidParamError } from '@/domain/errors'
 import { ValidatorsInterface } from '../validatorsInterface'
 
 export class ApiKeyValidation implements ValidatorsInterface {

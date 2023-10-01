@@ -1,7 +1,7 @@
-import { GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
+import { GetOverviewFromEvaluationTreaty } from '@/application/tasks'
 
-export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationUsecase {
-  async perform({ evaluationsEntitiesList }: GetOverviewFromEvaluationUsecase.Params): Promise<GetOverviewFromEvaluationUsecase.Response> {
+export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationTreaty {
+  async perform({ evaluationsEntitiesList }: GetOverviewFromEvaluationTreaty.Params): Promise<GetOverviewFromEvaluationTreaty.Response> {
     if (!evaluationsEntitiesList.length) return undefined
 
     const oldestEvaluation = evaluationsEntitiesList.reduce((prev, current) => {
@@ -24,7 +24,7 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationU
       visceralFat: +newestBioimpedance.visceralFat - +oldestBioimpedance.visceralFat,
     }
 
-    const history: GetOverviewFromEvaluationUsecase.History = {
+    const history: GetOverviewFromEvaluationTreaty.History = {
       weight: [],
       fatPercentage: [],
       muscleMassPercentage: [],
@@ -41,11 +41,11 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationU
       if (!bioimpedance || !client) return
 
       history.weight.push(this.getHistoryObject(createdAt, client.weight))
-      history.fatPercentage.push(this.getHistoryObject(createdAt, bioimpedance.fatPercentage))
-      history.muscleMassPercentage.push(this.getHistoryObject(createdAt, bioimpedance.muscleMassPercentage))
-      history.visceralFat.push(this.getHistoryObject(createdAt, bioimpedance.visceralFat))
-      history.metabolicAge.push(this.getHistoryObject(createdAt, bioimpedance.metabolicAge))
-      history.basalMetabolicRate.push(this.getHistoryObject(createdAt, bioimpedance.basalMetabolicRate))
+      history.fatPercentage.push(this.getHistoryObject(createdAt, +bioimpedance.fatPercentage))
+      history.muscleMassPercentage.push(this.getHistoryObject(createdAt, +bioimpedance.muscleMassPercentage))
+      history.visceralFat.push(this.getHistoryObject(createdAt, +bioimpedance.visceralFat))
+      history.metabolicAge.push(this.getHistoryObject(createdAt, +bioimpedance.metabolicAge))
+      history.basalMetabolicRate.push(this.getHistoryObject(createdAt, +bioimpedance.basalMetabolicRate))
     })
 
     if (!history.weight.length) return undefined

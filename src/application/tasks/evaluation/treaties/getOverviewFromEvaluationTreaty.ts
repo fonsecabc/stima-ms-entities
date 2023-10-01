@@ -1,11 +1,11 @@
-import { Evaluation } from '../../entities'
-import { GetClientsEvaluationHistoryUsecase } from '../clients/getClientsEvaluationHistoryUsecase'
+import { Evaluation } from '@/domain/entities'
+import { GetClientsEvaluationHistoryUsecase } from '@/domain/usecases/clients/getClientsEvaluationHistoryUsecase'
 
-export interface GetOverviewFromEvaluationUsecase {
-  perform(params: GetOverviewFromEvaluationUsecase.Params): Promise<GetOverviewFromEvaluationUsecase.Response>
+export interface GetOverviewFromEvaluationTreaty {
+  perform(params: GetOverviewFromEvaluationTreaty.Params): Promise<GetOverviewFromEvaluationTreaty.Response>
 }
 
-export namespace GetOverviewFromEvaluationUsecase {
+export namespace GetOverviewFromEvaluationTreaty {
   export type Params = {
     evaluationsEntitiesList: Evaluation[]
   }

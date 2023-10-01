@@ -6,7 +6,7 @@ import {
   GetQuery,
   Measurements,
   NutritionistForm,
-} from '../../../domain/entities'
+} from '@/domain/entities'
 
 export interface EvaluationRepositoryContract {
     create(params: EvaluationRepositoryContract.Create.Params): Promise<EvaluationRepositoryContract.Create.Response>
@@ -68,7 +68,7 @@ export namespace EvaluationRepositoryContract {
 
     export namespace Delete {
         export type Params = {
-            uid: string
+            evaluation: Evaluation
         }
 
         export type Response = boolean

@@ -1,13 +1,17 @@
-import { QueryOperators } from '../../domain/enums'
-import { ClientRepositoryContract } from '../../application/contracts'
-import { Client, ClientListObject } from '../../domain/entities'
+import { QueryOperators } from '@/domain/enums'
+import { ClientRepositoryContract } from '@/application/contracts/repositories'
+import { Client, ClientListObject } from '@/domain/entities'
 
-import * as firebase from 'firebase-admin'
+import { firestore } from 'firebase-admin'
 
 export class ClientRepository implements ClientRepositoryContract {
+  private readonly clientsRef: firestore.CollectionReference
+
   constructor(
-        private readonly db: firebase.firestore.Firestore
-  ) {}
+    private readonly db: firestore.Firestore
+  ) {
+    this.clientsRef = this.db.collection('clients')
+  }
 
   async create(params: ClientRepositoryContract.Create.Params): Promise<ClientRepositoryContract.Create.Response> {
     const { uid, userUid, name, email, phone, dateOfBirth, sex, height, weight } = params
@@ -24,13 +28,13 @@ export class ClientRepository implements ClientRepositoryContract {
       createdAt: new Date(),
     }
 
-    return this.db.collection('clients').doc(uid).create(client).then(() => client)
+    return this.clientsRef.doc(uid).create(client).then(() => client)
   }
 
   async get(params: ClientRepositoryContract.Get.Params): Promise<ClientRepositoryContract.Get.Response> {
     const { uid } = params
     const client = (
-      await this.db.collection('clients').doc(uid).get()
+      await this.clientsRef.doc(uid).get()
     ).data()
 
     return client ?
@@ -87,20 +91,17 @@ export class ClientRepository implements ClientRepositoryContract {
     const client = await this.get({ uid })
     if (!client) return false
 
-    return this.db.collection('clients').doc(uid).update(attrs).then(() => true)
+    return this.clientsRef.doc(uid).update(attrs).then(() => true)
   }
 
-  async delete(params: ClientRepositoryContract.Delete.Params): Promise<ClientRepositoryContract.Delete.Response> {
-    const { uid } = params
-    const client = await this.get({ uid })
-    if (!client) return false
-
+  async delete({ client }: ClientRepositoryContract.Delete.Params): Promise<ClientRepositoryContract.Delete.Response> {
+    const uid = client.uid
     client.deletedAt = new Date()
 
-    return Promise.all([
-      this.db.collection('deleted_clients').doc(uid).create(client),
-      this.db.collection('clients').doc(uid).delete(),
-    ]).then(() => true)
+    await this.db.collection('deleted_clients').doc(uid).create(client)
+    await this.clientsRef.doc(uid).delete()
+
+    return true
   }
 }
 

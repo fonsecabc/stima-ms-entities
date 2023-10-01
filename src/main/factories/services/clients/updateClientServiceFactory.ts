@@ -1,5 +1,5 @@
-import { ClientRepositoryFactory } from '../../repositories'
-import { UpdateClientService } from '../../../../application/services'
+import { ClientRepositoryFactory } from '@/main/factories/repositories'
+import { UpdateClientService } from '@/application/services'
 
 export class UpdateClientServiceFactory {
   private static instance: UpdateClientServiceFactory

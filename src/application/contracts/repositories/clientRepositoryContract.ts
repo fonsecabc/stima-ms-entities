@@ -2,8 +2,8 @@ import {
   Client,
   ClientListObject,
   GetQuery,
-} from '../../../domain/entities'
-import { Sex } from '../../../domain/enums'
+} from '@/domain/entities'
+import { Sex } from '@/domain/enums'
 
 export interface ClientRepositoryContract {
     create(params: ClientRepositoryContract.Create.Params): Promise<ClientRepositoryContract.Create.Response>
@@ -67,7 +67,7 @@ export namespace ClientRepositoryContract {
 
     export namespace Delete {
         export type Params = {
-            uid: string
+            client: Client
         }
 
         export type Response = boolean

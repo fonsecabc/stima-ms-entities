@@ -3,8 +3,8 @@ import {
   Evaluation,
   Measurements,
   NutritionistForm,
-} from '../../entities'
-import { Sex } from '../../enums'
+} from '@/domain/entities'
+import { Sex } from '@/domain/enums'
 
 export interface CreateEvaluationUsecase {
   perform(params: CreateEvaluationUsecase.Params): Promise<CreateEvaluationUsecase.Response>

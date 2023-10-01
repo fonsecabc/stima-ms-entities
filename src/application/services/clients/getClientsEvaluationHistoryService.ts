@@ -1,14 +1,15 @@
-import { Client, Evaluation } from '../../../domain/entities'
-import { EvaluationRepositoryContract } from '../../contracts'
-import { GetType, QueryOperators } from '../../../domain/enums'
-import { NoDataError, NotFoundError } from '../../../domain/errors'
-import { GetClientUsecase, GetClientsEvaluationHistoryUsecase, GetOverviewFromEvaluationUsecase } from '../../../domain/usecases'
+import { GetOverviewFromEvaluationTreaty } from '@/application/tasks'
+import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
+import { Client, Evaluation } from '@/domain/entities'
+import { GetType, QueryOperators } from '@/domain/enums'
+import { NoDataError, NotFoundError } from '@/domain/errors'
+import { GetClientUsecase, GetClientsEvaluationHistoryUsecase } from '@/domain/usecases'
 
 export class GetClientsEvaluationHistoryService implements GetClientsEvaluationHistoryUsecase {
   constructor(
-        private readonly evaluationRepository: EvaluationRepositoryContract,
-        private readonly getClientService: GetClientUsecase,
-        private readonly getOverallResultsTask: GetOverviewFromEvaluationUsecase,
+    private readonly evaluationRepository: EvaluationRepositoryContract,
+    private readonly getClientService: GetClientUsecase,
+    private readonly getOverallResultsTask: GetOverviewFromEvaluationTreaty,
   ) { }
 
   async perform({ userUid, uid }: GetClientsEvaluationHistoryUsecase.Params): Promise<GetClientsEvaluationHistoryUsecase.Response> {

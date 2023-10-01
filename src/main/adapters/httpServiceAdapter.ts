@@ -1,8 +1,7 @@
 import { cors } from '../config'
-import { NotFoundError } from '../../domain/errors'
-import { InvalidParamError } from '../../presentation/errors'
-import { handleErrorService } from '../../application/services'
-import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '../../presentation/helpers'
+import { NotFoundError, InvalidParamError } from '@/domain/errors'
+import { handleErrorTask } from '@/application/tasks'
+import { Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '@/presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
 
@@ -22,7 +21,7 @@ export function defineHttpService(routes: Routes[]): HttpsFunction {
           try {
             return await route.handler(request)
           } catch (error: any) {
-            const err = await handleErrorService({ err: error })
+            const err = await handleErrorTask({ err: error })
 
             if (err instanceof NotFoundError) return notFound(err)
             if (err instanceof InvalidParamError) return invalidParams(err)

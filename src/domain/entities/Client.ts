@@ -1,4 +1,4 @@
-import { Sex } from '../enums'
+import { Sex } from '@/domain/enums'
 
 export interface Client {
     uid: string

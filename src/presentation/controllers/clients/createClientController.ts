@@ -1,12 +1,10 @@
-import {
-  VerifyAccessTokenServiceFactory,
-  CreateClientValidatorFactory,
-  CreateClientServiceFactory,
-} from '../../../main/factories'
-import { Sex } from '../../../domain/enums'
-import { InvalidParamError } from '../../errors'
-import { Client } from '../../../domain/entities'
-import { HttpResponse, invalidParams, success, unathorized } from '../../helpers'
+import { HttpResponse, invalidParams, success, unathorized } from '@/presentation/helpers'
+import { Sex } from '@/domain/enums'
+import { Client } from '@/domain/entities'
+import { InvalidParamError } from '@/domain/errors'
+import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+import { CreateClientServiceFactory } from '@/main/factories/services'
+import { CreateClientValidatorFactory } from '@/main/factories/validators'
 
 type Request = {
   accessToken: string
@@ -24,7 +22,7 @@ export async function createClientController(request: Request): Promise<HttpResp
   const isValid = await CreateClientValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenServiceFactory.getInstance().make().perform(request)
+  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
   if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const client = await CreateClientServiceFactory.getInstance().make().perform(request)

@@ -1,5 +1,5 @@
-import { ClientRepositoryFactory } from '../..'
-import { DeleteClientService } from '../../../../application/services'
+import { ClientRepositoryFactory } from '@/main/factories/repositories'
+import { DeleteClientService } from '@/application/services'
 
 export class DeleteClientServiceFactory {
   private static instance: DeleteClientServiceFactory

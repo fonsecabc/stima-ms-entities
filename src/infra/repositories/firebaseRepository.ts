@@ -1,4 +1,4 @@
-import { FirebaseRepositoryContract } from '../../application/contracts'
+import { FirebaseRepositoryContract } from '@/application/contracts/repositories'
 
 import * as firebase from 'firebase-admin'
 

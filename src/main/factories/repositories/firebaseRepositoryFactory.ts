@@ -1,4 +1,4 @@
-import { FirebaseRepository } from '../../../infra/repositories'
+import { FirebaseRepository } from '@/infra/repositories'
 import { variables } from '../../config'
 
 export class FirebaseRepositoryFactory {

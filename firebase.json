@@ -6,7 +6,7 @@
   "functions": [
     {
       "source": ".",
-      "codebase": "default",
+      "codebase": "entities",
       "ignore": [
         "node_modules",
         ".git",

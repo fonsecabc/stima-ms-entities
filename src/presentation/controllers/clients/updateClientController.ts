@@ -1,11 +1,8 @@
-import {
-  VerifyAccessTokenServiceFactory,
-  UpdateClientValidatorFactory,
-  UpdateClientServiceFactory,
-} from '../../../main/factories'
-import { InvalidParamError } from '../../errors'
-import { NotFoundError } from '../../../domain/errors'
-import { HttpResponse, invalidParams, notFound, success, unathorized } from '../../helpers'
+import { HttpResponse, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
+import { InvalidParamError, NotFoundError } from '@/domain/errors'
+import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+import { UpdateClientServiceFactory } from '@/main/factories/services'
+import { UpdateClientValidatorFactory } from '@/main/factories/validators'
 
 type Request = {
   accessToken: string
@@ -17,7 +14,7 @@ export async function updateClientController(request: Request): Promise<HttpResp
   const isValid = await UpdateClientValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenServiceFactory.getInstance().make().perform(request)
+  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
   if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const isUpdated = await UpdateClientServiceFactory.getInstance().make().perform(request)

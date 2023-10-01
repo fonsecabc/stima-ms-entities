@@ -1,5 +1,5 @@
 import { FirebaseRepositoryFactory } from './firebaseRepositoryFactory'
-import { EvaluationRepository } from '../../../infra/repositories'
+import { EvaluationRepository } from '@/infra/repositories'
 
 export class EvaluationRepositoryFactory {
   private static instance: EvaluationRepositoryFactory

@@ -1,5 +1,5 @@
-import { Sex } from '../../enums'
-import { Client } from '../../entities'
+import { Sex } from '@/domain/enums'
+import { Client } from '@/domain/entities'
 
 export interface CreateClientUsecase {
     perform(params: CreateClientUsecase.Params): Promise<CreateClientUsecase.Response>

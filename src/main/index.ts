@@ -1,4 +1,5 @@
-import { routes } from './config'
-import { defineHttpService } from './adapters'
+import './config/moduleAlias'
+import { routes } from '@/main/config'
+import { defineHttpService } from '@/main/adapters'
 
 export const entities = defineHttpService(routes)
