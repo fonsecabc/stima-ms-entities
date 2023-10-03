@@ -14,8 +14,12 @@ export class JwtAdapter implements JwtAdapterContract {
     return sign(payload, this.secret, options)
   }
 
-  async verify(token: string): Promise<JwtPayload> {
-    return verify(token, this.secret) as JwtPayload
+  async verify(token: string): Promise<JwtPayload | false> {
+    try {
+      return verify(token, this.secret) as JwtPayload
+    } catch (error) {
+      return false
+    }
   }
 
   private prepareSignOptions(id: string): SignOptions {

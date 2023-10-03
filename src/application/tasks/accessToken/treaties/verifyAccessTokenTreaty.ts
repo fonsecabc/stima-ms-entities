@@ -1,4 +1,5 @@
 import { User } from '@/domain/entities'
+import { InvalidParamError } from '@/domain/errors'
 
 export interface VerifyAccessTokenTreaty {
   perform(params: VerifyAccessTokenTreaty.Params): Promise<VerifyAccessTokenTreaty.Response>
@@ -8,5 +9,5 @@ export namespace VerifyAccessTokenTreaty {
     accessToken: string
   }
 
-  export type Response = User | false
+  export type Response = User | InvalidParamError
 }

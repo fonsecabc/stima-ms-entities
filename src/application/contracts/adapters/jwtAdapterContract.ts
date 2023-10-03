@@ -1,6 +1,6 @@
 export interface JwtAdapterContract {
     sign(payload: any): Promise<string>
-    verify(token: string): Promise<JwtPayload>
+    verify(token: string): Promise<JwtPayload | false>
 }
 
 export interface JwtPayload {
