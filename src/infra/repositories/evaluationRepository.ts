@@ -109,7 +109,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
     return Promise.all([
       this.db.collection('deleted_evaluations').doc(uid).create(evaluation),
-      this.evaluationsRef.doc(uid).delete()
+      this.evaluationsRef.doc(uid).delete(),
     ]).then(() => true).catch(() => false)
   }
 }

@@ -17,8 +17,8 @@ export namespace GetClientsEvaluationHistoryUsecase {
     export type Response = {
         client: Client
         evaluationList: EvaluationListObject[]
-        newestEvaluation: Evaluation
-        overallResults: {
+        newestEvaluation?: Evaluation
+        overallResults?: {
             weight: number
             fatPercentage: number
             muscleMassPercentage: number

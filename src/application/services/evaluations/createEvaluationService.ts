@@ -17,7 +17,7 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
 
   async perform(params: CreateEvaluationUsecase.Params): Promise<CreateEvaluationUsecase.Response> {
     const { userUid, client, bioimpedance, measurements, nutricionistForm } = params
-    
+
     const createdClient = await this.createClientService.perform({ userUid, ...client })
     if (createdClient instanceof Error) return createdClient
 
@@ -44,7 +44,7 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
 
     const createdEvaluation = await this.evaluationRepository.create({ uid, userUid, client: updatedClient, bioimpedance, measurements, nutricionistForm })
     if (!createdEvaluation) return new CouldNotError('create evaluation')
-    
+
     return createdEvaluation
   }
 }

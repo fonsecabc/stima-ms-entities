@@ -1,8 +1,8 @@
 import { GetOverviewFromEvaluationTreaty } from '@/application/tasks'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
-import { Client, Evaluation } from '@/domain/entities'
+import { NotFoundError } from '@/domain/errors'
 import { GetType, QueryOperators } from '@/domain/enums'
-import { NoDataError, NotFoundError } from '@/domain/errors'
+import { Client, Evaluation, EvaluationListObject } from '@/domain/entities'
 import { GetClientUsecase, GetClientsEvaluationHistoryUsecase } from '@/domain/usecases'
 
 export class GetClientsEvaluationHistoryService implements GetClientsEvaluationHistoryUsecase {
@@ -31,25 +31,29 @@ export class GetClientsEvaluationHistoryService implements GetClientsEvaluationH
       },
     }) as Evaluation[]
 
-    if (evaluationsEntitiesList.length === 0) return new NoDataError('client')
+    let evaluationList: EvaluationListObject[] = []
+    let newestEvaluation: Evaluation | undefined = undefined
+    let overallResultsAndHistory: GetOverviewFromEvaluationTreaty.Response | undefined = undefined
 
-    const newestEvaluation = evaluationsEntitiesList.reduce((prev, current) => {
-      return prev.createdAt > current.createdAt ? prev : current
-    })
+    if (evaluationsEntitiesList.length > 0) {
+      evaluationList = evaluationsEntitiesList.map((evaluation) => {
+        return {
+          uid: evaluation.uid,
+          userUid: evaluation.userUid,
+          clientUid: evaluation.client.uid,
+          clientName: evaluation.client.name,
+          nutritionalRoutineStatus: evaluation.nutritionalRoutineStatus,
+          nutritionalRoutineLink: evaluation.nutritionalRoutineLink,
+          createdAt: evaluation.createdAt,
+        }
+      })
 
-    const evaluationList = evaluationsEntitiesList.map((evaluation) => {
-      return {
-        uid: evaluation.uid,
-        userUid: evaluation.userUid,
-        clientUid: evaluation.client.uid,
-        clientName: evaluation.client.name,
-        nutritionalRoutineStatus: evaluation.nutritionalRoutineStatus,
-        nutritionalRoutineLink: evaluation.nutritionalRoutineLink,
-        createdAt: evaluation.createdAt,
-      }
-    })
+      newestEvaluation = evaluationsEntitiesList.reduce((prev, current) => {
+        return prev.createdAt > current.createdAt ? prev : current
+      })
 
-    const overallResultsAndHistory = await this.getOverallResultsTask.perform({ evaluationsEntitiesList })
+      overallResultsAndHistory = await this.getOverallResultsTask.perform({ evaluationsEntitiesList })
+    }
 
     return {
       client,

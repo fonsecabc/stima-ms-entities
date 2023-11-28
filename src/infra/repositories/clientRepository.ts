@@ -97,7 +97,7 @@ export class ClientRepository implements ClientRepositoryContract {
 
     return Promise.all([
       this.db.collection('deleted_clients').doc(uid).create(client),
-      this.clientsRef.doc(uid).delete()
+      this.clientsRef.doc(uid).delete(),
     ]).then(() => true).catch(() => false)
   }
 }

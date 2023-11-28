@@ -7,6 +7,13 @@ export type HttpResponse<T = any> = {
   data: T
 }
 
+export type HttpRequest<T = any> = {
+  body?: T
+  query?: T
+  method: HttpMethods
+  path: string
+}
+
 export type Routes = {
   path: string
   method: HttpMethods
