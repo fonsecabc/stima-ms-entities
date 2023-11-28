@@ -10,8 +10,6 @@ const notion = new Client({
 export async function handleErrorTask({ err, req }: HandleErrorTreaty.Params): Promise<HandleErrorTreaty.Response> {
   const error = ErrorMap.get(err.message)
 
-  if (error) return error
-
   await notion.pages.create({
     parent: {
       page_id: 'd107c9402c9c408c804cab1da236a2f8',

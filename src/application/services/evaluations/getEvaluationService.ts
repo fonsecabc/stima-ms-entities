@@ -5,7 +5,7 @@ import { EvaluationRepositoryContract } from '@/application/contracts/repositori
 
 export class GetEvaluationService implements GetEvaluationUsecase {
   constructor(
-        private readonly evaluationRepository: EvaluationRepositoryContract,
+    private readonly evaluationRepository: EvaluationRepositoryContract,
   ) { }
 
   async perform({ userUid, uid = '', type, query }: GetEvaluationUsecase.Params): Promise<GetEvaluationUsecase.Response> {
