@@ -42,6 +42,7 @@
             }
         ],
         "require-jsdoc": 0,
+        "no-tabs": 0,
         "@typescript-eslint/no-namespace": 0,
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-empty-function": 0,

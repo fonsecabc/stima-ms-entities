@@ -1,7 +1,16 @@
 import { cors } from '../config'
+import { LoggerAdapterFactory } from '@/main/factories/adapters'
 import { NotFoundError, InvalidParamError } from '@/domain/errors'
-import { handleErrorTask } from '@/application/tasks'
-import { HttpRequest, HttpResponse, Routes, badRequest, invalidParams, methodNotAllowed, notFound, undefinedRoute } from '@/presentation/helpers'
+import {
+  HttpRequest,
+  HttpResponse,
+  Routes,
+  badRequest,
+  invalidParams,
+  methodNotAllowed,
+  notFound,
+  undefinedRoute,
+} from '@/presentation/helpers'
 
 import { https, Request, Response, HttpsFunction } from 'firebase-functions'
 
@@ -30,8 +39,8 @@ export async function eventHandler(req: HttpRequest, routes: Routes[]): Promise<
 
   try {
     return await route.handler(request)
-  } catch (error: any) {
-    const err = await handleErrorTask({ req, err: error })
+  } catch (err: any) {
+    await LoggerAdapterFactory.getInstance().make().logError({ req, err })
 
     if (err instanceof NotFoundError) return notFound(err)
     if (err instanceof InvalidParamError) return invalidParams(err)
