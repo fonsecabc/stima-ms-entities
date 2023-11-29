@@ -6,7 +6,8 @@ export class LoggerAdapter implements LoggerAdapterContract {
   private notion: Client
 
   constructor(
-    private readonly notionToken: string
+    private readonly notionToken: string,
+    private readonly notionPageId: string
   ) {
     this.notion = new Client({
       auth: this.notionToken,
@@ -17,7 +18,7 @@ export class LoggerAdapter implements LoggerAdapterContract {
     try {
       await this.notion.pages.create({
         parent: {
-          page_id: 'd107c9402c9c408c804cab1da236a2f8',
+          page_id: this.notionPageId,
         },
         icon: {
           type: 'emoji',

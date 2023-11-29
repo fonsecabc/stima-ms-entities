@@ -14,7 +14,8 @@ export class LoggerAdapterFactory {
 
   public make(): LoggerAdapter {
     return new LoggerAdapter(
-      variables.notionToken
+      variables.notionToken,
+      variables.notionPageId
     )
   }
 }

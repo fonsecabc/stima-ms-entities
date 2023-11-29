@@ -3,6 +3,7 @@ export const variables = {
   firebaseAdminSdk: process.env.CONFIG_FIREBASE_ADMIN_SDK ?? 'undefined',
   jwtSecret: process.env.JWT_SECRET ?? 'undefined',
   notionToken: process.env.NOTION_TOKEN ?? 'undefined',
+  notionPageId: process.env.NOTION_PAGE_ID ?? 'undefined',
 }
 
 export const testVariables = (): boolean => {
