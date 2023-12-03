@@ -1,5 +1,6 @@
+import { EvaluationListAgreement } from '@/infra/transformers'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
-import { Evaluation, EvaluationListObject } from '@/domain/entities'
+import { Evaluation } from '@/domain/entities'
 import { NutritionalRoutineStatus, QueryOperators } from '@/domain/enums'
 
 import { firestore } from 'firebase-admin'
@@ -9,17 +10,19 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
   constructor(
     private readonly db: firestore.Firestore,
+    private readonly evaluationListTransformer: EvaluationListAgreement
   ) {
     this.evaluationsRef = this.db.collection('evaluations')
   }
 
   async create(params: EvaluationRepositoryContract.Create.Params): Promise<EvaluationRepositoryContract.Create.Response> {
     const { uid } = params
-    const evaluation: Evaluation = {
+    const evaluation: any = {
       ...params,
       nutritionalRoutineStatus: NutritionalRoutineStatus.NOT_REQUESTED,
-      createdAt: new Date(),
     }
+
+    Object.keys(evaluation).forEach((key: any) => evaluation[key] === undefined && delete evaluation[key])
 
     return this.evaluationsRef.doc(uid).create(evaluation).then(() => evaluation).catch(() => undefined)
   }
@@ -36,20 +39,17 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
   async getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response> {
     const { userUid } = params
-    const evaluationList: EvaluationListObject[] = (
-      await this.evaluationsRef
-        .where('userUid', QueryOperators.EQUAL, userUid)
-        .select('uid', 'userUid', 'client', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
-        .get()
-    ).docs.map((doc) => {
-      const data = doc.data()
-      return {
-        ...data,
-        clientName: data.client.name,
-        clientUid: data.client.uid,
-        createdAt: data.createdAt.toDate(),
-      }
-    }) as EvaluationListObject[]
+
+    const result = await this.evaluationsRef
+      .where('userUid', QueryOperators.EQUAL, userUid)
+      .select('uid', 'userUid', 'client.name', 'client.uid', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
+      .get()
+
+    const evaluationList = result.docs.map((doc) => {
+      const data = doc.data() as EvaluationListAgreement.Params
+
+      return this.evaluationListTransformer.transform(data)
+    })
 
     return evaluationList
   }
@@ -58,40 +58,36 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
     const { userUid, query, type = 'list' } = params
 
     if (type === 'list') {
-      const evaluationList: EvaluationListObject[] = (
-                await this.evaluationsRef
-                  .where('userUid', QueryOperators.EQUAL, userUid)
-                  .where(query.param, query.operator, query.comparison)
-                  .select('uid', 'userUid', 'client', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
-                  .get()
-            ).docs.map((doc) => {
-              const data = doc.data()
-              return {
-                ...data,
-                clientName: data?.client.name,
-                clientUid: data?.client.uid,
-                createdAt: data?.createdAt.toDate(),
-              }
-            }) as EvaluationListObject[]
+      const result = await this.evaluationsRef
+        .where('userUid', QueryOperators.EQUAL, userUid)
+        .where(query.param, query.operator, query.comparison)
+        .select('uid', 'userUid', 'client', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
+        .get()
+
+      const evaluationList = result.docs.map((doc) => {
+        const data = doc.data() as EvaluationListAgreement.Params
+
+        return this.evaluationListTransformer.transform(data)
+      })
 
       return evaluationList
     } else {
       const evaluationList: Evaluation[] = (
-                await this.evaluationsRef
-                  .where('userUid', QueryOperators.EQUAL, userUid)
-                  .where(query.param, query.operator, query.comparison)
-                  .get()
-            ).docs.map((doc) => {
-              const data = doc.data()
-              return {
-                ...data,
-                client: {
-                  ...data.client,
-                  createdAt: data.client.createdAt.toDate(),
-                },
-                createdAt: data?.createdAt.toDate(),
-              }
-            }) as Evaluation[]
+        await this.evaluationsRef
+          .where('userUid', QueryOperators.EQUAL, userUid)
+          .where(query.param, query.operator, query.comparison)
+          .get()
+        ).docs.map((doc) => {
+          const data = doc.data()
+          return {
+            ...data,
+            client: {
+              ...data.client,
+              createdAt: data.client.createdAt.toDate(),
+            },
+            createdAt: data?.createdAt.toDate(),
+          }
+        }) as Evaluation[]
 
       return evaluationList
     }

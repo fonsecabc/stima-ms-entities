@@ -20,13 +20,14 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
 
     const createdClient = await this.createClientService.perform({ userUid, ...client })
     if (createdClient instanceof Error) return createdClient
+    const createdAt = new Date()
 
-    const uid = await this.cryptoAdapter.hashString(userUid + createdClient.uid + new Date().toString())
+    const uid = await this.cryptoAdapter.hashString(userUid + createdClient.uid + createdAt)
 
     const isClientUpdated = await this.updateClientService.perform({
       uid: createdClient.uid,
       attrs: {
-        lastEvaluatedAt: new Date(),
+        lastEvaluatedAt: createdAt as any,
         email: client.email,
         height: client.height,
         weight: client.weight,
@@ -36,7 +37,7 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
 
     const updatedClient = {
       ...createdClient,
-      lastEvaluatedAt: new Date(),
+      lastEvaluatedAt: createdAt as any,
       email: client.email,
       height: client.height,
       weight: client.weight,
