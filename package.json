@@ -5,6 +5,7 @@
     "build:watch": "tsc --watch",
     "lintstaged": "eslint --ext .js,.ts . --fix",
     "dev": "ts-node -r dotenv/config src/main/runMock.ts",
+    "script": "ts-node -r dotenv/config src/main/script.ts",
     "serve": "npm run build && nodemon --watch functions --exec 'firebase emulators:start'",
     "deploy": "firebase deploy --only functions",
     "kill": "npx kill-port 4400, 4000, 4500, 9199, 5000, 9099, 8080"

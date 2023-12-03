@@ -3,6 +3,7 @@ import {
   Evaluation,
   Measurements,
   NutritionistForm,
+  SkinFold,
 } from '@/domain/entities'
 import { Sex } from '@/domain/enums'
 
@@ -25,6 +26,7 @@ export namespace CreateEvaluationUsecase {
     bioimpedance?: Bioimpedance
     measurements?: Measurements
     nutricionistForm?: NutritionistForm
+    skinFold?: SkinFold
   }
 
   export type Response = Evaluation | Error

@@ -1,5 +1,5 @@
 import { FirebaseRepositoryFactory } from '@/main/factories/repositories'
-import { EvaluationListTransformerFactory } from '@/main/factories/transformers'
+import { EvaluationListTransformerFactory, EvaluationTransformerFactory } from '@/main/factories/transformers'
 import { EvaluationRepository } from '@/infra/repositories'
 
 export class EvaluationRepositoryFactory {
@@ -16,7 +16,8 @@ export class EvaluationRepositoryFactory {
   public make(): EvaluationRepository {
     return new EvaluationRepository(
       FirebaseRepositoryFactory.getInstance().make().db,
-      EvaluationListTransformerFactory.getInstance().make()
+      EvaluationListTransformerFactory.getInstance().make(),
+      EvaluationTransformerFactory.getInstance().make()
     )
   }
 }

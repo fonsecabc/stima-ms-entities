@@ -1,7 +1,13 @@
 import { HttpResponse, badRequest, invalidParams, success, unathorized } from '@/presentation/helpers'
+import {
+  SkinFold,
+  Evaluation,
+  Measurements,
+  Bioimpedance,
+  NutritionistForm,
+} from '@/domain/entities'
 import { Sex } from '@/domain/enums'
 import { InvalidParamError } from '@/domain/errors'
-import { Bioimpedance, Evaluation, Measurements, NutritionistForm } from '@/domain/entities'
 import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { CreateEvaluationServiceFactory } from '@/main/factories/services'
 import { CreateEvaluationValidatorFactory } from '@/main/factories/validators'
@@ -21,6 +27,7 @@ type Request = {
   bioimpedance?: Bioimpedance
   measurements?: Measurements
   nutricionistForm?: NutritionistForm
+  skinFold?: SkinFold
 }
 
 export async function createEvaluationController(request: Request): Promise<HttpResponse<Evaluation | Error>> {

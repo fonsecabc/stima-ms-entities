@@ -14,7 +14,7 @@ export type Evaluation = {
     bioimpedance?: Bioimpedance
     measurements?: Measurements
     nutricionistForm?: NutritionistForm
-    skinFolds?: SkinFold
+    skinFold?: SkinFold
     nutritionalRoutineStatus: NutritionalRoutineStatus
     nutritionalRoutineLink?: string
     createdAt: Date

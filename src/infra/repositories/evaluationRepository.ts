@@ -1,4 +1,4 @@
-import { EvaluationListAgreement } from '@/infra/transformers'
+import { EvaluationAgreement, EvaluationListAgreement } from '@/infra/transformers'
 import { Evaluation } from '@/domain/entities'
 import { NutritionalRoutineStatus, QueryOperators } from '@/domain/enums'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
@@ -10,7 +10,8 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
   constructor(
     private readonly db: firestore.Firestore,
-    private readonly evaluationListTransformer: EvaluationListAgreement
+    private readonly evaluationListTransformer: EvaluationListAgreement,
+    private readonly evaluationTransformer: EvaluationAgreement
   ) {
     this.evaluationsRef = this.db.collection('evaluations')
   }
@@ -29,12 +30,10 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
 
   async get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response> {
     const { uid } = params
-    const evaluation = (await this.evaluationsRef.doc(uid).get()).data()
 
-    return {
-      ...evaluation,
-      createdAt: evaluation?.createdAt.toDate(),
-    } as Evaluation
+    const result = (await this.evaluationsRef.doc(uid).get()).data() as EvaluationAgreement.Params
+
+    return this.evaluationTransformer.transform(result)
   }
 
   async getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response> {
