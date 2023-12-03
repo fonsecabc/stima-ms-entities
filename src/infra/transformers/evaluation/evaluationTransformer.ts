@@ -17,7 +17,7 @@ export class EvaluationTransformer implements EvaluationAgreement {
         lastEvaluatedAt: params.client.lastEvaluatedAt && this.dataTransformer.timestampToDateTransform(params.client.lastEvaluatedAt),
       },
       nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(params.nutritionalRoutineStatus),
-      createdAt: this.dataTransformer.timestampToDateTransform(params.createdAt),
+      createdAt: this.dataTransformer.timestampToDateTransform(params.createdAt)
     }
   }
 }

@@ -28,6 +28,7 @@ export namespace EvaluationRepositoryContract {
       measurements?: Measurements
       nutricionistForm?: NutritionistForm
       skinFold?: SkinFold
+      createdAt: Date
     }
 
     export type Response = Evaluation | undefined

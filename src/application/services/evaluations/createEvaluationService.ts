@@ -47,6 +47,7 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
       ...rest,
       uid,
       userUid,
+      createdAt,
       client: updatedClient,
     })
     if (!createdEvaluation) return new CouldNotError('create evaluation')
