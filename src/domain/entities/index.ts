@@ -1,6 +1,7 @@
 export * from './User'
 export * from './Client'
 export * from './GetQuery'
+export * from './SkinFold'
 export * from './Evaluation'
 export * from './Measurements'
 export * from './Bioimpedance'

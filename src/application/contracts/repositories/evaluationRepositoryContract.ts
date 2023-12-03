@@ -1,76 +1,78 @@
 import {
-  Bioimpedance,
   Client,
-  Evaluation,
-  EvaluationListObject,
+  SkinFold,
   GetQuery,
+  Evaluation,
   Measurements,
+  Bioimpedance,
   NutritionistForm,
+  EvaluationListObject,
 } from '@/domain/entities'
 
 export interface EvaluationRepositoryContract {
-    create(params: EvaluationRepositoryContract.Create.Params): Promise<EvaluationRepositoryContract.Create.Response>
-    get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response>
-    getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response>
-    getQuery(params: EvaluationRepositoryContract.GetQuery.Params): Promise<EvaluationRepositoryContract.GetQuery.Response>
-    update(params: EvaluationRepositoryContract.Update.Params): Promise<EvaluationRepositoryContract.Update.Response>
-    delete(params: EvaluationRepositoryContract.Delete.Params): Promise<EvaluationRepositoryContract.Delete.Response>
+  create(params: EvaluationRepositoryContract.Create.Params): Promise<EvaluationRepositoryContract.Create.Response>
+  get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response>
+  getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response>
+  getQuery(params: EvaluationRepositoryContract.GetQuery.Params): Promise<EvaluationRepositoryContract.GetQuery.Response>
+  update(params: EvaluationRepositoryContract.Update.Params): Promise<EvaluationRepositoryContract.Update.Response>
+  delete(params: EvaluationRepositoryContract.Delete.Params): Promise<EvaluationRepositoryContract.Delete.Response>
 }
 
 export namespace EvaluationRepositoryContract {
-    export namespace Create {
-        export type Params = {
-            uid: string
-            userUid: string
-            client: Client
-            bioimpedance?: Bioimpedance
-            measurements?: Measurements
-            nutricionistForm?: NutritionistForm
-        }
-
-        export type Response = Evaluation | undefined
+  export namespace Create {
+    export type Params = {
+      uid: string
+      userUid: string
+      client: Client
+      bioimpedance?: Bioimpedance
+      measurements?: Measurements
+      nutricionistForm?: NutritionistForm
+      skinFold?: SkinFold
     }
 
-    export namespace Get {
-        export type Params = {
-            uid: string
-        }
+    export type Response = Evaluation | undefined
+  }
 
-        export type Response = Evaluation
+  export namespace Get {
+    export type Params = {
+      uid: string
     }
 
-    export namespace GetList {
-        export type Params = {
-            userUid: string
-        }
+    export type Response = Evaluation
+  }
 
-        export type Response = EvaluationListObject[]
+  export namespace GetList {
+    export type Params = {
+      userUid: string
     }
 
-    export namespace GetQuery {
-        export type Params = {
-            userUid: string
-            query: GetQuery
-            type?: 'list' | 'entity'
-        }
+    export type Response = EvaluationListObject[]
+  }
 
-        export type Response = EvaluationListObject[] | Evaluation[]
+  export namespace GetQuery {
+    export type Params = {
+      userUid: string
+      query: GetQuery
+      type?: 'list' | 'entity'
     }
 
-    export namespace Update {
-        export type Params = {
-            uid: string
-            attrs: object
-        }
+    export type Response = EvaluationListObject[] | Evaluation[]
+  }
 
-        export type Response = boolean
+  export namespace Update {
+    export type Params = {
+      uid: string
+      attrs: object
     }
 
-    export namespace Delete {
-        export type Params = {
-            evaluation: Evaluation
-        }
+    export type Response = boolean
+  }
 
-        export type Response = boolean
+  export namespace Delete {
+    export type Params = {
+      evaluation: Evaluation
     }
+
+    export type Response = boolean
+  }
 }

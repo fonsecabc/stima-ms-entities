@@ -1,8 +1,11 @@
-import { Client } from './Client'
-import { Bioimpedance } from './Bioimpedance'
-import { Measurements } from './Measurements'
+import {
+  Client,
+  SkinFold,
+  Measurements,
+  Bioimpedance,
+  NutritionistForm,
+} from '@/domain/entities'
 import { NutritionalRoutineStatus } from '@/domain/enums'
-import { NutritionistForm } from './NutritionistForm'
 
 export type Evaluation = {
     uid: string
@@ -11,6 +14,7 @@ export type Evaluation = {
     bioimpedance?: Bioimpedance
     measurements?: Measurements
     nutricionistForm?: NutritionistForm
+    skinFolds?: SkinFold
     nutritionalRoutineStatus: NutritionalRoutineStatus
     nutritionalRoutineLink?: string
     createdAt: Date

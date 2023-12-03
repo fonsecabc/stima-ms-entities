@@ -1,7 +1,7 @@
 import { EvaluationListAgreement } from '@/infra/transformers'
-import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
 import { Evaluation } from '@/domain/entities'
 import { NutritionalRoutineStatus, QueryOperators } from '@/domain/enums'
+import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
 
 import { firestore } from 'firebase-admin'
 
