@@ -77,10 +77,10 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
         .where('userUid', QueryOperators.EQUAL, userUid)
         .select('uid', 'userUid', 'client.name', 'client.uid', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
         .orderBy('createdAt', 'desc')
-        .limit(paginationFilters.pageSize)
+        .limit(+paginationFilters.pageSize)
 
-      if (paginationFilters.currentPage > 1) {
-        const skipCount = (paginationFilters.currentPage - 1) * paginationFilters.pageSize
+      if (+paginationFilters.currentPage > 1) {
+        const skipCount = (+paginationFilters.currentPage - 1) * +paginationFilters.pageSize
         const lastDoc = await this.evaluationsRef
           .where('userUid', QueryOperators.EQUAL, userUid)
           .orderBy(filters.by, filters.order)
