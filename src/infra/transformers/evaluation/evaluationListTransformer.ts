@@ -7,12 +7,14 @@ export class EvaluationListTransformer implements EvaluationListAgreement {
   ) {}
 
   transform(params: EvaluationListAgreement.Params): EvaluationListAgreement.Response {
+    const { client, ...rest } = params
+    
     return {
-      ...params,
-      clientName: this.dataTransformer.firstLetterUpperCaseStringTransform(params.client.name),
-      clientUid: params.client.uid,
-      nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(params.nutritionalRoutineStatus),
-      createdAt: this.dataTransformer.timestampToDateTransform(params.createdAt),
-    }
+      ...rest,
+      clientName: this.dataTransformer.firstLetterUpperCaseStringTransform(client.name),
+      clientUid: client.uid,
+      nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(rest.nutritionalRoutineStatus),
+      createdAt: this.dataTransformer.timestampToDateTransform(rest.createdAt),
+    } 
   }
 }

@@ -76,7 +76,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       let query = this.evaluationsRef
         .where('userUid', QueryOperators.EQUAL, userUid)
         .select('uid', 'userUid', 'client.name', 'client.uid', 'nutritionalRoutineStatus', 'nutritionalRoutineLink', 'createdAt')
-        .orderBy('createdAt', 'desc')
+        .orderBy(filters.by, filters.order)
         .limit(+paginationFilters.pageSize)
 
       if (+paginationFilters.currentPage > 1) {
