@@ -43,6 +43,11 @@ export const routes: Routes[] = [
     handler: controllers.getEvaluationController,
   },
   {
+    path: '/evaluation/get-list',
+    method: 'GET',
+    handler: controllers.getEvaluationsListController,
+  },
+  {
     path: '/evaluation/delete',
     method: 'DELETE',
     handler: controllers.deleteEvaluationController,

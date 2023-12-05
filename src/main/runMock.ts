@@ -6,6 +6,6 @@ import * as fromMocks from '@/domain/mocks'
 
 initializeApp()
 
-const event = fromMocks.getEvaluationMock as any
+const event = fromMocks.getEvaluationsListMock as any
 
 eventHandler(event, routes).then(console.log)

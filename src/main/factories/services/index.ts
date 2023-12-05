@@ -5,6 +5,7 @@ export * from './clients/deleteClientServiceFactory'
 export * from './clients/getClientsEvaluationHistoryServiceFactory'
 
 export * from './evaluations/getEvaluationServiceFactory'
+export * from './evaluations/getEvaluationsListServiceFactory'
 export * from './evaluations/createEvaluationServiceFactory'
 export * from './evaluations/updateEvaluationServiceFactory'
 export * from './evaluations/deleteEvaluationServiceFactory'

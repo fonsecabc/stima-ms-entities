@@ -4,12 +4,12 @@ import {
   RequireParamValidation,
 } from '@/infra/validators'
 
-export class GetEvaluationValidatorFactory {
-  private static instance: GetEvaluationValidatorFactory
+export class GetEvaluationsListValidatorFactory {
+  private static instance: GetEvaluationsListValidatorFactory
 
-  public static getInstance(): GetEvaluationValidatorFactory {
+  public static getInstance(): GetEvaluationsListValidatorFactory {
     if (!this.instance) {
-      this.instance = new GetEvaluationValidatorFactory()
+      this.instance = new GetEvaluationsListValidatorFactory()
     }
 
     return this.instance
@@ -17,7 +17,7 @@ export class GetEvaluationValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['uid']) {
+    for (const field of ['userUid']) {
       validations.push(new RequireParamValidation(field))
     }
 

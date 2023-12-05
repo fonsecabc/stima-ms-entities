@@ -1,7 +1,7 @@
 import { GetOverviewFromEvaluationTreaty } from '@/application/tasks'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
 import { NotFoundError } from '@/domain/errors'
-import { GetType, QueryOperators } from '@/domain/enums'
+import { GetType } from '@/domain/enums'
 import { Client, Evaluation, EvaluationListObject } from '@/domain/entities'
 import { GetClientUsecase, GetClientsEvaluationHistoryUsecase } from '@/domain/usecases'
 
@@ -21,15 +21,8 @@ export class GetClientsEvaluationHistoryService implements GetClientsEvaluationH
 
     if (client instanceof NotFoundError) return client
 
-    const evaluationsEntitiesList = await this.evaluationRepository.getQuery({
-      userUid,
-      type: 'entity',
-      query: {
-        param: 'client.uid',
-        operator: QueryOperators.EQUAL,
-        comparison: uid,
-      },
-    }) as Evaluation[]
+    const evaluationsEntitiesList = await this.evaluationRepository.getEntitiesByClientUid({ clientUid: client.uid })
+    if (evaluationsEntitiesList instanceof Error) return evaluationsEntitiesList
 
     let evaluationList: EvaluationListObject[] = []
     let newestEvaluation: Evaluation | undefined = undefined

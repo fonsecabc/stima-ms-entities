@@ -6,7 +6,7 @@ export namespace LoggerAdapterContract {
   export namespace LogError {
     export type Params = {
       err: Error
-      req: any
+      req?: any
     }
 
     export type Response = void

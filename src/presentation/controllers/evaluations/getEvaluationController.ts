@@ -1,24 +1,20 @@
-import { HttpResponse, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
-import { GetType } from '@/domain/enums'
+import { HttpResponse, invalidParams, notFound, success } from '@/presentation/helpers'
 import { InvalidParamError, NotFoundError } from '@/domain/errors'
-import { Evaluation, EvaluationListObject } from '@/domain/entities'
-import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+import { Evaluation } from '@/domain/entities'
+// import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { GetEvaluationServiceFactory } from '@/main/factories/services'
 import { GetEvaluationValidatorFactory } from '@/main/factories/validators'
 
-
 type Request = {
-  accessToken: string
-  userUid: string
-  type: GetType
+  uid: string
 }
 
-export async function getEvaluationController(request: Request): Promise<HttpResponse<Evaluation | EvaluationListObject[] | Error>> {
+export async function getEvaluationController(request: Request): Promise<HttpResponse<Evaluation | Error>> {
   const isValid = await GetEvaluationValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
-  if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
+  // const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
+  // if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const evaluations = await GetEvaluationServiceFactory.getInstance().make().perform(request)
   if (evaluations instanceof InvalidParamError) return invalidParams(evaluations)

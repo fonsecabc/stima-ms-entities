@@ -5,6 +5,7 @@ export * from './clients/updateClientController'
 export * from './clients/getClientsEvaluationHistoryController'
 
 export * from './evaluations/getEvaluationController'
+export * from './evaluations/getEvaluationsListController'
 export * from './evaluations/updateEvaluationController'
 export * from './evaluations/createEvaluationController'
 export * from './evaluations/deleteEvaluationController'

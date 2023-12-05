@@ -1,39 +1,20 @@
-import { GetType } from '@/domain/enums'
-import { NotFoundError, InvalidParamError } from '@/domain/errors'
-import { GetEvaluationUsecase } from '@/domain/usecases'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
+import { GetEvaluationUsecase } from '@/domain/usecases'
+import { NotFoundError, InvalidParamError } from '@/domain/errors'
 
 export class GetEvaluationService implements GetEvaluationUsecase {
   constructor(
     private readonly evaluationRepository: EvaluationRepositoryContract,
   ) { }
 
-  async perform({ userUid, uid = '', type, query }: GetEvaluationUsecase.Params): Promise<GetEvaluationUsecase.Response> {
-    let response: GetEvaluationUsecase.Response
+  async perform(params: GetEvaluationUsecase.Params): Promise<GetEvaluationUsecase.Response> {
+    const { uid } = params
 
-    switch (type) {
-    case GetType.ENTITY:
-      if (!uid) return new InvalidParamError('uid')
+    if (!uid) return new InvalidParamError('uid')
 
-      response = await this.evaluationRepository.get({ uid })
-      if (!response) return new NotFoundError('evaluation')
+    const response = await this.evaluationRepository.get({ uid: uid })
+    if (response instanceof Error) return response
 
-      break
-    case GetType.LIST:
-      if (!userUid) return new InvalidParamError('userUid')
-
-      response = await this.evaluationRepository.getList({ userUid })
-      break
-    case GetType.QUERY:
-      if (!query || !userUid) return new InvalidParamError('get query, userUid')
-
-      response = await this.evaluationRepository.getQuery({ query, userUid }) as GetEvaluationUsecase.Response
-      break
-    default:
-      response = new InvalidParamError('get type')
-      break
-    }
-
-    return response
+    return response ?? new NotFoundError('evaluation')
   }
 }

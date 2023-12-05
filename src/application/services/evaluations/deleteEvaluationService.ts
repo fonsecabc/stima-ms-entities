@@ -10,6 +10,7 @@ export class DeleteEvaluationService implements DeleteEvaluationUsecase {
   async perform({ uid }: DeleteEvaluationUsecase.Params): Promise<DeleteEvaluationUsecase.Response> {
     const evaluation = await this.evaluationRepository.get({ uid })
     if (!evaluation) return new NotFoundError('Evaluation')
+    if (evaluation instanceof Error) return evaluation
 
     const isDeleted = await this.evaluationRepository.delete({ evaluation })
 
