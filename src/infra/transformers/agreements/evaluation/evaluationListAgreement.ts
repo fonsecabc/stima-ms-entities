@@ -3,7 +3,7 @@ import { EvaluationListObject } from '@/domain/entities'
 import { Timestamp } from 'firebase-admin/firestore'
 
 export interface EvaluationListAgreement {
-  transform: (evaluationList: EvaluationListAgreement.Params) => EvaluationListAgreement.Response
+  transform: (params: EvaluationListAgreement.Params) => EvaluationListAgreement.Response
 }
 
 export namespace EvaluationListAgreement {
