@@ -17,7 +17,7 @@ export class GetClientsEvaluationHistoryValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['userUid', 'uid']) {
+    for (const field of ['uid']) {
       validations.push(new RequireParamValidation(field))
     }
 

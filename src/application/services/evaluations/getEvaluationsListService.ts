@@ -1,5 +1,5 @@
-import { GetEvaluationsListUsecase } from '@/domain/usecases'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
+import { GetEvaluationsListUsecase } from '@/domain/usecases'
 
 export class GetEvaluationsListService implements GetEvaluationsListUsecase {
   constructor(

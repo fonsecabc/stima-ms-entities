@@ -1,7 +1,7 @@
 import {
   Filters,
   EvaluationListObject,
-  PaginationFiltersParams,
+  PaginationFilters,
 } from '@/domain/entities'
 
 export interface GetEvaluationsListUsecase {
@@ -11,7 +11,7 @@ export interface GetEvaluationsListUsecase {
 export namespace GetEvaluationsListUsecase {
   export type Params = {
     userUid: string
-    paginationFilters?: PaginationFiltersParams
+    paginationFilters?: PaginationFilters
     filters?: Filters
   }
 

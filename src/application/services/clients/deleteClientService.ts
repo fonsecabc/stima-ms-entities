@@ -9,7 +9,7 @@ export class DeleteClientService implements DeleteClientUsecase {
 
   async perform({ uid }: DeleteClientUsecase.Params): Promise<DeleteClientUsecase.Response> {
     const client = await this.clientRepository.get({ uid })
-    if (!client) return new NotFoundError('Client not')
+    if (!client) return new NotFoundError('Client')
 
     const isDeleted = await this.clientRepository.delete({ client })
 

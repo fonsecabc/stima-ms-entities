@@ -1,4 +1,3 @@
-import { FirebaseError } from '@/application/errors'
 import {
   Client,
   SkinFold,
@@ -8,7 +7,7 @@ import {
   NutritionistForm,
   EvaluationListObject,
   Filters,
-  PaginationFiltersParams,
+  PaginationFilters,
 } from '@/domain/entities'
 
 export interface EvaluationRepositoryContract {
@@ -33,7 +32,7 @@ export namespace EvaluationRepositoryContract {
       createdAt: Date
     }
 
-    export type Response = Evaluation | FirebaseError
+    export type Response = Evaluation
   }
 
   export namespace Get {
@@ -41,17 +40,17 @@ export namespace EvaluationRepositoryContract {
       uid: string
     }
 
-    export type Response = Evaluation | FirebaseError | undefined
+    export type Response = Evaluation | undefined
   }
 
   export namespace GetList {
     export type Params = {
       userUid: string
       filters: Filters
-      paginationFilters: PaginationFiltersParams
+      paginationFilters: PaginationFilters
     }
 
-    export type Response = EvaluationListObject[] | FirebaseError
+    export type Response = EvaluationListObject[]
   }
 
   export namespace GetEntitiesByClientUid {
@@ -59,7 +58,7 @@ export namespace EvaluationRepositoryContract {
       clientUid: string
     }
 
-    export type Response = Evaluation[] | FirebaseError
+    export type Response = Evaluation[]
   }
 
   export namespace Update {
@@ -68,7 +67,7 @@ export namespace EvaluationRepositoryContract {
       attrs: object
     }
 
-    export type Response = true | FirebaseError
+    export type Response = true
   }
 
   export namespace Delete {
@@ -76,6 +75,6 @@ export namespace EvaluationRepositoryContract {
       evaluation: Evaluation
     }
 
-    export type Response = true | FirebaseError
+    export type Response = true
   }
 }

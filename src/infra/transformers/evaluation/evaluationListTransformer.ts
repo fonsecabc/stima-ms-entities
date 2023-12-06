@@ -8,13 +8,13 @@ export class EvaluationListTransformer implements EvaluationListAgreement {
 
   transform(params: EvaluationListAgreement.Params): EvaluationListAgreement.Response {
     const { client, ...rest } = params
-    
+
     return {
       ...rest,
       clientName: this.dataTransformer.firstLetterUpperCaseStringTransform(client.name),
       clientUid: client.uid,
       nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(rest.nutritionalRoutineStatus),
       createdAt: this.dataTransformer.timestampToDateTransform(rest.createdAt),
-    } 
+    }
   }
 }

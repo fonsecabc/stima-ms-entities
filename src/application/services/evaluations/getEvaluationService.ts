@@ -1,6 +1,6 @@
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
+import { NotFoundError } from '@/domain/errors'
 import { GetEvaluationUsecase } from '@/domain/usecases'
-import { NotFoundError, InvalidParamError } from '@/domain/errors'
 
 export class GetEvaluationService implements GetEvaluationUsecase {
   constructor(
@@ -8,13 +8,8 @@ export class GetEvaluationService implements GetEvaluationUsecase {
   ) { }
 
   async perform(params: GetEvaluationUsecase.Params): Promise<GetEvaluationUsecase.Response> {
-    const { uid } = params
+    const evaluation = await this.evaluationRepository.get(params)
 
-    if (!uid) return new InvalidParamError('uid')
-
-    const response = await this.evaluationRepository.get({ uid: uid })
-    if (response instanceof Error) return response
-
-    return response ?? new NotFoundError('evaluation')
+    return evaluation ?? new NotFoundError('Evaluation')
   }
 }

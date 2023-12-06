@@ -7,7 +7,7 @@ export class ClientTransformer implements ClientAgreement {
 
   transform(params: ClientAgreement.Params): ClientAgreement.Response {
     const { createdAt, lastEvaluatedAt, ...rest } = params
-    
+
     return {
       ...rest,
       createdAt: this.dataTransformer.timestampToDateTransform(createdAt),

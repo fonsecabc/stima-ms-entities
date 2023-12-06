@@ -18,6 +18,11 @@ export const routes: Routes[] = [
     handler: controllers.getClientController,
   },
   {
+    path: '/client/get-list',
+    method: 'GET',
+    handler: controllers.getClientsListController,
+  },
+  {
     path: '/client/get-evaluations-history',
     method: 'GET',
     handler: controllers.getClientsEvaluationHistoryController,

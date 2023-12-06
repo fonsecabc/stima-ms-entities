@@ -1,9 +1,10 @@
 import { EvaluationAgreement, EvaluationListAgreement } from '@/infra/transformers'
+import { Evaluation } from '@/domain/entities'
 import { NutritionalRoutineStatus, QueryOperators } from '@/domain/enums'
+import { FirebaseError } from '@/application/errors'
 import { EvaluationRepositoryContract } from '@/application/contracts/repositories'
 
 import { firestore } from 'firebase-admin'
-import { FirebaseError } from '@/application/errors'
 
 export class EvaluationRepository implements EvaluationRepositoryContract {
   private readonly evaluationsRef: firestore.CollectionReference
@@ -20,16 +21,15 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
     const { uid } = params
 
     try {
-      const evaluation: any = {
+      const evaluation: Evaluation = {
         ...params,
         nutritionalRoutineStatus: NutritionalRoutineStatus.NOT_REQUESTED,
       }
 
-      Object.keys(evaluation).forEach((key: any) => evaluation[key] === undefined && delete evaluation[key])
       await this.evaluationsRef.doc(uid).create(evaluation)
 
       const createdEvaluation = await this.get({ uid })
-      if (!createdEvaluation) return new FirebaseError('Document did not persist')
+      if (!createdEvaluation) throw new FirebaseError('Document did not persist')
 
       return createdEvaluation
     } catch (error: any) {
@@ -125,8 +125,8 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       const uid = evaluation.uid
       evaluation.deletedAt = new Date()
 
-      await this.evaluationsRef.doc(uid).delete()
       await this.db.collection('deleted_evaluations').doc(uid).create(evaluation)
+      await this.evaluationsRef.doc(uid).delete()
 
       return true
     } catch (error: any) {

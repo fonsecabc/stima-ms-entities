@@ -17,7 +17,7 @@ export async function deleteEvaluationController(request: Request): Promise<Http
   if (isTokenValid instanceof Error) return unathorized(isTokenValid)
 
   const isDeleted = await DeleteEvaluationServiceFactory.getInstance().make().perform(request)
-  if (!isDeleted) return notFound(new NotFoundError('evaluation'))
+  if (!isDeleted) return notFound(new NotFoundError('Evaluation'))
 
   return success(isDeleted)
 }

@@ -1,13 +1,13 @@
 import { HttpResponse, badRequest, invalidParams, notFound, success } from '@/presentation/helpers'
 import { InvalidParamError, NotFoundError } from '@/domain/errors'
-import { Evaluation, EvaluationListObject, Filters, PaginationFiltersParams } from '@/domain/entities'
+import { Evaluation, EvaluationListObject, Filters, PaginationFilters } from '@/domain/entities'
 // import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { GetEvaluationsListServiceFactory } from '@/main/factories/services'
 import { GetEvaluationsListValidatorFactory } from '@/main/factories/validators'
 
 type Request = {
   userUid: string
-  paginationFilters?: PaginationFiltersParams
+  paginationFilters?: PaginationFilters
   filters?: Filters
 }
 

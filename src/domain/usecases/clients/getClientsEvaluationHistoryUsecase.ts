@@ -5,7 +5,6 @@ export interface GetClientsEvaluationHistoryUsecase {
 }
 export namespace GetClientsEvaluationHistoryUsecase {
   export type Params = {
-    userUid: string
     uid: string
   }
 

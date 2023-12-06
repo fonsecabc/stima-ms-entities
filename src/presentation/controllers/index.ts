@@ -1,4 +1,5 @@
 export * from './clients/getClientController'
+export * from './clients/getClientsListController'
 export * from './clients/createClientController'
 export * from './clients/deleteClientController'
 export * from './clients/updateClientController'

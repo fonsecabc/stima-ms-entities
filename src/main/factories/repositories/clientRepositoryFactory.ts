@@ -1,5 +1,6 @@
+import { FirebaseRepositoryFactory } from '@/main/factories/repositories'
 import { ClientRepository } from '@/infra/repositories'
-import { FirebaseRepositoryFactory } from './firebaseRepositoryFactory'
+import { ClientListTransformerFactory, ClientTransformerFactory } from '@/main/factories/transformers'
 
 export class ClientRepositoryFactory {
   private static instance: ClientRepositoryFactory
@@ -15,6 +16,8 @@ export class ClientRepositoryFactory {
   public make(): ClientRepository {
     return new ClientRepository(
       FirebaseRepositoryFactory.getInstance().make().db,
+      ClientListTransformerFactory.getInstance().make(),
+      ClientTransformerFactory.getInstance().make()
     )
   }
 }

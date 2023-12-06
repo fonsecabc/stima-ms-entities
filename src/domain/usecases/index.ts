@@ -2,6 +2,7 @@ export * from './clients/getClientUsecase'
 export * from './clients/createClientUsecase'
 export * from './clients/updateClientUsecase'
 export * from './clients/deleteClientUsecase'
+export * from './clients/getClientsListUsecase'
 export * from './clients/getClientsEvaluationHistoryUsecase'
 
 export * from './evaluations/getEvaluationUsecase'
