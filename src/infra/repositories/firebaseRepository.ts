@@ -16,6 +16,6 @@ export class FirebaseRepository implements FirebaseRepositoryContract {
     this.auth = this.app.auth()
     this.storage = this.app.storage()
 
-    this.db.settings({ ignoreUndefinedProperties: true })
+    !(firebase.apps.length) && this.db.settings({ ignoreUndefinedProperties: true })
   }
 }
