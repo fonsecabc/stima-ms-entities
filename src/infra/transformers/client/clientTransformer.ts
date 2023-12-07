@@ -6,10 +6,12 @@ export class ClientTransformer implements ClientAgreement {
   ) {}
 
   transform(params: ClientAgreement.Params): ClientAgreement.Response {
-    const { createdAt, lastEvaluatedAt, ...rest } = params
+    const { createdAt, lastEvaluatedAt, name, email, ...rest } = params
 
     return {
       ...rest,
+      name: this.dataTransformer.firstLetterUpperCaseStringTransform(name),
+      email: this.dataTransformer.lowerCaseStringTransform(email),
       createdAt: this.dataTransformer.timestampToDateTransform(createdAt),
       lastEvaluatedAt: this.dataTransformer.timestampToDateTransform(lastEvaluatedAt),
     }
