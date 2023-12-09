@@ -19,7 +19,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
     const bioimpedanceId = bioimpedance ? await this.createBioimpedance(bioimpedance) : null
     const nutricionistFormId = nutricionistForm ? await this.createNutricionistForm(nutricionistForm) : null
     const measurementsId = measurements ? await this.createMeasurements(measurements) : null
-    const skinFoldsId = skinFold ? await this.createSkinFold(skinFold) : null
+    const skinFoldId = skinFold ? await this.createSkinFold(skinFold) : null
 
     const query = `
         INSERT INTO evaluations (
@@ -32,7 +32,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
           bioimpedance_id,
           nutricionist_form_id,
           measurements_id,
-          skin_folds_id,
+          skin_fold_id,
           nutritional_routine_status,
           created_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -48,7 +48,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       bioimpedanceId,
       nutricionistFormId,
       measurementsId,
-      skinFoldsId,
+      skinFoldId,
       params.nutritionalRoutineStatus ?? null,
       params.createdAt.toISOString(),
     ])

@@ -11,10 +11,17 @@ export class ClientRepository implements ClientRepositoryContract {
   ) {}
 
   async create(params: ClientRepositoryContract.Create.Params): Promise<ClientRepositoryContract.Create.Response> {
+<<<<<<< HEAD
     const { uid, userUid, name, email, dateOfBirth, height, weight, phone, sex, createdAt } = params
 
     const query = `
       INSERT INTO clients (
+=======
+    const { uid, userUid, name, email, dateOfBirth, height, weight, phone, sex } = params
+
+    const query = `
+      INSERT clients (
+>>>>>>> 1d9f6a100324ed931b615e7d11b47d6a30956cd3
         uid,
         user_uid,
         name,
@@ -22,6 +29,7 @@ export class ClientRepository implements ClientRepositoryContract {
         date_of_birth,
         height,
         weight,
+<<<<<<< HEAD
         phone,
         sex,
         created_at
@@ -29,6 +37,13 @@ export class ClientRepository implements ClientRepositoryContract {
     `
 
     const result = await this.db.execute(query, [uid, userUid, name, email, dateOfBirth, height, weight, phone, sex, createdAt.toISOString()])
+=======
+        sex
+      ) (?, ?, ?, ?, ?, ?, ?, ?)
+    `
+
+    const result = await this.db.execute(query, [uid, userUid, name, email, dateOfBirth, height, weight, phone, sex])
+>>>>>>> 1d9f6a100324ed931b615e7d11b47d6a30956cd3
 
     const client = await this.get({ uid })
     if (result.rowsAffected === 0 || !client) throw new DatabaseError('Data did not persist!')
@@ -105,7 +120,10 @@ export class ClientRepository implements ClientRepositoryContract {
       UPDATE clients
       SET deleted_at = ?
       WHERE uid = ?
+<<<<<<< HEAD
       AND deleted_at IS NULL
+=======
+>>>>>>> 1d9f6a100324ed931b615e7d11b47d6a30956cd3
     `
 
     const result = await this.db.execute(query, [new Date().toISOString(), uid])

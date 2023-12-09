@@ -2,7 +2,7 @@ export const getEvaluationMock = {
   path: '/evaluation/get',
   method: 'GET',
   query: {
-    uid: 'b52bd59034b13d6de3829566c3899380c408b9a1141c994c9fea7eef3c79b280',
+    uid: '00072a930e44e4a87e64b069bf9e0cdcdbbf8449e0bb774de4ed7ba50d27e0e3',
     userUid: '7a5ed6a7-fd94-4ffe-a9a6-460cfad238e6',
   },
 }

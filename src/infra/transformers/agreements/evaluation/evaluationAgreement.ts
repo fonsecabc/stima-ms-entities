@@ -15,7 +15,7 @@ export namespace EvaluationAgreement {
     bioimpedance_id: string | null
     measurements_id: string | null
     nutricionist_form_id: string | null
-    skin_folds_id: string | null
+    skin_fold_id: string | null
     nutritional_routine_status: string
     nutritional_routine_link: string | null
     created_at: string
