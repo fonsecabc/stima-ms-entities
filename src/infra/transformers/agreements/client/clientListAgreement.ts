@@ -11,11 +11,7 @@ export namespace ClientListAgreement {
     name: string
     phone: string
     last_evaluated_at: string | null
-<<<<<<< HEAD
     created_at: string
-=======
-    created_at: string | null
->>>>>>> 1d9f6a100324ed931b615e7d11b47d6a30956cd3
   }
 
   export type Response = ClientListObject
