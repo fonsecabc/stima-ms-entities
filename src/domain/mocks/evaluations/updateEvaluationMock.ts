@@ -3,6 +3,6 @@ export const updateEvaluationMock = {
   method: 'PUT',
   body: {
     uid: '',
-    args: {}
+    args: {},
   },
 }

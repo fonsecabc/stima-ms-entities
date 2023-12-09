@@ -9,6 +9,6 @@ export const createClientMock = {
     dateOfBirth: '99/00/9999',
     sex: 'female',
     height: 175,
-    weight: 80
+    weight: 80,
   },
 }

@@ -62,16 +62,16 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
   async get(params: EvaluationRepositoryContract.Get.Params): Promise<EvaluationRepositoryContract.Get.Response> {
     const { uid } = params
 
-    const queries = [ 
-      `SELECT e.*, c.name AS client_name FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.uid = ? AND e.deleted_at IS NULL;`,
-      `SELECT c.* FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.uid = ? AND e.deleted_at IS NULL;`,
-      `SELECT b.* FROM evaluations e JOIN bioimpedances b ON b.id  = e.bioimpedance_id WHERE e.uid = ? AND e.deleted_at IS NULL;`,
-      `SELECT m.* FROM evaluations e JOIN measurements m ON m.id  = e.measurements_id WHERE e.uid = ? AND e.deleted_at IS NULL;`,
-      `SELECT sf.* FROM evaluations e JOIN skin_folds sf ON sf.id = e.skin_fold_id WHERE e.uid = ? AND e.deleted_at IS NULL;`,
+    const queries = [
+      'SELECT e.*, c.name AS client_name FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.uid = ? AND e.deleted_at IS NULL;',
+      'SELECT c.* FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.uid = ? AND e.deleted_at IS NULL;',
+      'SELECT b.* FROM evaluations e JOIN bioimpedances b ON b.id  = e.bioimpedance_id WHERE e.uid = ? AND e.deleted_at IS NULL;',
+      'SELECT m.* FROM evaluations e JOIN measurements m ON m.id  = e.measurements_id WHERE e.uid = ? AND e.deleted_at IS NULL;',
+      'SELECT sf.* FROM evaluations e JOIN skin_folds sf ON sf.id = e.skin_fold_id WHERE e.uid = ? AND e.deleted_at IS NULL;',
     ]
 
     const result = await Promise.all(
-      queries.map((query) => 
+      queries.map((query) =>
         this.db.execute<EvaluationAgreement.Params>(query, [uid])
       )
     )
@@ -83,7 +83,7 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       client: data[1],
       bioimpedance: data[2],
       measurements: data[3],
-      skinFold: data[4]
+      skinFold: data[4],
     }
 
     return this.evaluationTransformer.transform(transformerParams)

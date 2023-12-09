@@ -13,7 +13,7 @@ export class ClientListTransformer implements ClientListAgreement {
       userUid: params.user_uid,
       name: dataTransformer.firstLetterUpperCaseStringTransform(params.name),
       phone: params.phone,
-      lastEvaluatedAt: params.last_evaluated_at ? new Date(params.last_evaluated_at) : undefined ,
+      lastEvaluatedAt: params.last_evaluated_at ? new Date(params.last_evaluated_at) : undefined,
       createdAt: new Date(params.created_at),
     }
   }

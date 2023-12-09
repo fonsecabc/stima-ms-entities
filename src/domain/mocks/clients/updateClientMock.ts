@@ -3,6 +3,6 @@ export const updateClientMock = {
   method: 'PUT',
   body: {
     uid: '',
-    args: {}
+    args: {},
   },
 }

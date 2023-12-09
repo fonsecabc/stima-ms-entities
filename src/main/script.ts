@@ -7,7 +7,7 @@ const db = databaseConnections.sqlite
 const script = async () => {
   await initializeApp()
 
-  const query = ``
+  const query = ''
   await db.execute(query, []).then(console.log)
 }
 
