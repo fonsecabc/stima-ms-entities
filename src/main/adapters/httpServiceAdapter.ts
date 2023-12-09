@@ -1,5 +1,5 @@
 import { cors } from '@/main/config'
-import { initializeApp, closeApp } from '@/main/app'
+import { initializeApp } from '@/main/app'
 import { LoggerAdapterFactory } from '@/main/factories/adapters'
 import { NotFoundError, InvalidParamError } from '@/domain/errors'
 import {
@@ -48,7 +48,5 @@ export async function eventHandler(req: HttpRequest, routes: Routes[]): Promise<
     if (err instanceof InvalidParamError) return invalidParams(err)
 
     return badRequest(err)
-  } finally {
-    await closeApp()
   }
 }

@@ -1,4 +1,4 @@
-import { connectDatabases, disconnectDatabases, testVariables } from '@/main/config'
+import { connectDatabases, testVariables } from '@/main/config'
 import { EnvironmentVariablesError } from '@/presentation/errors'
 
 export const initializeApp = async () => {
@@ -6,8 +6,4 @@ export const initializeApp = async () => {
   if (!isEnvioromentValid) throw new EnvironmentVariablesError()
 
   await connectDatabases()
-}
-
-export const closeApp = async () => {
-  await disconnectDatabases()
 }

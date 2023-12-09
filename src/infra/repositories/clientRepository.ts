@@ -105,10 +105,7 @@ export class ClientRepository implements ClientRepositoryContract {
       UPDATE clients
       SET deleted_at = ?
       WHERE uid = ?
-<<<<<<< HEAD
       AND deleted_at IS NULL
-=======
->>>>>>> 1d9f6a100324ed931b615e7d11b47d6a30956cd3
     `
 
     const result = await this.db.execute(query, [new Date().toISOString(), uid])

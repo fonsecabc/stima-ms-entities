@@ -15,9 +15,3 @@ export const connectDatabases = async (): Promise<void> => {
     await connection.connect()
   }
 }
-
-export const disconnectDatabases = async (): Promise<void> => {
-  for (const connection of Object.values(databaseConnections)) {
-    await connection.disconnect()
-  }
-}
