@@ -93,29 +93,32 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
     Promise<EvaluationRepositoryContract.GetEntitiesByClientUid.Response> {
     const { clientUid } = params
 
-    const query = `
-        SELECT 
-          e.*,
-          client.*,
-          skin_fold.*,
-          bioimpedance.*,
-          measurements.*,
-          measurements.*,
-          nutricionist_form.*
-        FROM evaluations e 
-        JOIN      ( SELECT * FROM clients            ) AS client ON client.uid = e.client_uid
-        LEFT JOIN ( SELECT * FROM skin_folds         ) AS skin_fold ON skin_fold.id = e.skin_folds_id
-        LEFT JOIN ( SELECT * FROM measurements       ) AS measurements ON measurements.id = e.measurements_id
-        LEFT JOIN ( SELECT * FROM bioimpedances      ) AS bioimpedance ON bioimpedance.id = e.bioimpedance_id
-        LEFT JOIN ( SELECT * FROM nutricionist_forms ) AS nutricionist_form ON nutricionist_form.id = e.nutricionist_form_id
-        WHERE client.uid = ?
-        AND e.deleted_at IS NULL
-      `
+    const queries = [
+      'SELECT e.*, c.name AS client_name FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.client_uid = ? AND e.deleted_at IS NULL;',
+      'SELECT c.* FROM evaluations e JOIN clients c ON c.uid = e.client_uid WHERE e.client_uid = ? AND e.deleted_at IS NULL;',
+      'SELECT b.* FROM evaluations e JOIN bioimpedances b ON b.id  = e.bioimpedance_id WHERE e.client_uid = ? AND e.deleted_at IS NULL;',
+      'SELECT m.* FROM evaluations e JOIN measurements m ON m.id  = e.measurements_id WHERE e.client_uid = ? AND e.deleted_at IS NULL;',
+      'SELECT sf.* FROM evaluations e JOIN skin_folds sf ON sf.id = e.skin_fold_id WHERE e.client_uid = ? AND e.deleted_at IS NULL;',
+    ]
 
-    const result = await this.db.execute<EvaluationAgreement.Params>(query, [clientUid])
-    if (result.rows.length === 0) return []
+    const result = await Promise.all(
+      queries.map((query) =>
+        this.db.execute<EvaluationAgreement.Params>(query, [clientUid])
+      )
+    )
+    if (result[0].rows.length === 0) return []
 
-    return result.rows.map(this.evaluationTransformer.transform)
+    const [evaluations, clients, bioimpedances, measurements, skinFolds] = result
+
+    const data = evaluations.rows.map((evaluation, index) => ({
+      ...evaluation,
+      client: clients.rows[index],
+      bioimpedance: bioimpedances.rows[index],
+      measurements: measurements.rows[index],
+      skinFold: skinFolds.rows[index],
+    })) as any
+
+    return data.map(this.evaluationTransformer.transform)
   }
 
   async getList(params: EvaluationRepositoryContract.GetList.Params): Promise<EvaluationRepositoryContract.GetList.Response> {
