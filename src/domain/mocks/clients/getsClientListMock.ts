@@ -1,5 +1,5 @@
-export const getEvaluationsListMock = {
-  path: '/evaluation/get-list',
+export const getClientsListMock = {
+  path: '/client/get-list',
   method: 'GET',
   query: {
     userUid: 'b797652d-5820-4fb5-8fd4-65b2c52d00f6',

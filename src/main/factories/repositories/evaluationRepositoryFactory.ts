@@ -1,6 +1,6 @@
-import { FirebaseRepositoryFactory } from '@/main/factories/repositories'
 import { EvaluationListTransformerFactory, EvaluationTransformerFactory } from '@/main/factories/transformers'
 import { EvaluationRepository } from '@/infra/repositories'
+import { databaseConnections } from '@/main/config'
 
 export class EvaluationRepositoryFactory {
   private static instance: EvaluationRepositoryFactory
@@ -15,7 +15,7 @@ export class EvaluationRepositoryFactory {
 
   public make(): EvaluationRepository {
     return new EvaluationRepository(
-      FirebaseRepositoryFactory.getInstance().make().db,
+      databaseConnections.sqlite,
       EvaluationListTransformerFactory.getInstance().make(),
       EvaluationTransformerFactory.getInstance().make()
     )

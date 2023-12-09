@@ -1,120 +1,111 @@
+import { DatabaseConnection } from '@/infra/database/connections'
 import { ClientAgreement, ClientListAgreement } from '@/infra/transformers'
-import { Client } from '@/domain/entities'
-import { QueryOperators } from '@/domain/enums'
-import { FirebaseError } from '@/application/errors'
+import { DatabaseError } from '@/application/errors'
 import { ClientRepositoryContract } from '@/application/contracts/repositories'
 
-import { firestore } from 'firebase-admin'
-
 export class ClientRepository implements ClientRepositoryContract {
-  private readonly clientsRef: firestore.CollectionReference
-
   constructor(
-    private readonly db: firestore.Firestore,
+    private readonly db: DatabaseConnection,
     private readonly clientListTransformer: ClientListAgreement,
     private readonly clientTransformer: ClientAgreement
-  ) {
-    this.clientsRef = this.db.collection('clients')
-  }
+  ) {}
 
   async create(params: ClientRepositoryContract.Create.Params): Promise<ClientRepositoryContract.Create.Response> {
-    const { height, weight, uid, ...rest } = params
+    const { uid, userUid, name, email, dateOfBirth, height, weight, phone, sex } = params
 
-    try {
-      const client: Client = {
-        ...rest,
+    const query = `
+      INSERT clients (
         uid,
-        height: +height,
-        weight: +weight,
-        createdAt: new Date(),
-      }
+        user_uid,
+        name,
+        email,
+        date_of_birth,
+        height,
+        weight,
+        sex
+      ) (?, ?, ?, ?, ?, ?, ?, ?)
+    `
 
-      await this.clientsRef.doc(uid).create(client)
+    const result = await this.db.execute(query, [uid, userUid, name, email, dateOfBirth, height, weight, phone, sex])
 
-      const result = await this.get({ uid })
-      if (!result) throw new FirebaseError('Document did not persist')
+    const client = await this.get({ uid })
+    if (result.rowsAffected === 0 || !client) throw new DatabaseError('Data did not persist!')
 
-      return result
-    } catch (error: any) {
-      throw new FirebaseError(error.message)
-    }
+    return client
   }
 
   async get(params: ClientRepositoryContract.Get.Params): Promise<ClientRepositoryContract.Get.Response> {
     const { uid } = params
 
-    try {
-      const result = (await this.clientsRef.doc(uid).get()).data() as ClientAgreement.Params
-      if (!result) return undefined
+    const query = `
+      SELECT * FROM clients WHERE uid = ?
+    `
 
-      return this.clientTransformer.transform(result)
-    } catch (error: any) {
-      throw new FirebaseError(error.message)
-    }
+    const result = await this.db.execute<ClientAgreement.Params>(query, [uid])
+    if (result.rows.length === 0) return undefined
+
+    return this.clientTransformer.transform(result.rows[0])
   }
 
   async getList(params: ClientRepositoryContract.GetList.Params): Promise<ClientRepositoryContract.GetList.Response> {
     const { userUid, paginationFilters, filters } = params
 
-    try {
-      let query = this.db.collection('clients')
-        .where('userUid', QueryOperators.EQUAL, userUid)
-        .select('uid', 'userUid', 'name', 'phone', 'lastEvaluatedAt', 'createdAt')
-        .orderBy(filters.by, filters.order)
-        .limit(+paginationFilters.pageSize)
-
-      if (+paginationFilters.currentPage > 1) {
-        const skipCount = (+paginationFilters.currentPage - 1) * +paginationFilters.pageSize
-        const lastDoc = await this.clientsRef
-          .where('userUid', QueryOperators.EQUAL, userUid)
-          .orderBy(filters.by, filters.order)
-          .limit(skipCount)
-          .get()
-
-        if (lastDoc.docs.length > 0) {
-          const lastDocSnapshot = lastDoc.docs[lastDoc.docs.length - 1]
-          query = query.startAfter(lastDocSnapshot)
-        }
-      }
-
-      const result = await query.get()
-
-      const clientList = result.docs.map((doc) => {
-        const data = doc.data() as ClientListAgreement.Params
-        return this.clientListTransformer.transform(data)
-      })
-
-      return clientList
-    } catch (error: any) {
-      throw new FirebaseError(error.message)
+    const filterBy = {
+      clientName: 'name',
+      createdAt: 'created_at',
+      lastEvaluatedAt: 'last_evaluated_at',
     }
+
+    const query = `
+      SELECT 
+        uid,
+        user_uid,
+        name,
+        phone,
+        last_evaluated_at,
+        created_at
+      FROM clients
+      WHERE user_uid = ?
+      AND deleted_at IS NULL
+      ${filters.search ? `AND ${filters.search.by} LIKE '%${filters.search.value}%'` : ''}
+      ORDER BY ${filterBy[filters.by]} ${filters.order.toUpperCase()}
+      LIMIT ${paginationFilters.pageSize} OFFSET ${(paginationFilters.currentPage - 1) * paginationFilters.pageSize}
+    `
+
+    const result = await this.db.execute<ClientListAgreement.Params>(query, [userUid])
+    if (result.rows.length === 0) return []
+
+    return result.rows.map(this.clientListTransformer.transform)
   }
 
   async update(params: ClientRepositoryContract.Update.Params): Promise<ClientRepositoryContract.Update.Response> {
     const { uid, attrs } = params
-    try {
-      await this.clientsRef.doc(uid).update(attrs)
 
-      return true
-    } catch (error: any) {
-      throw new FirebaseError(error.message)
-    }
+    const query = `
+      UPDATE clients
+      SET ${Object.keys(attrs).map((key) => `${key} = ?`).join(', ')}
+      WHERE uid = ?
+    `
+
+    const result = await this.db.execute(query, [...Object.values(attrs), uid])
+    if (result.rowsAffected === 0) throw new DatabaseError('Data did not persist!')
+
+    return true
   }
 
   async delete(params: ClientRepositoryContract.Delete.Params): Promise<ClientRepositoryContract.Delete.Response> {
-    const { client } = params
+    const { uid } = params
 
-    try {
-      const uid = client.uid
-      client.deletedAt = new Date()
+    const query = `
+      UPDATE clients
+      SET deleted_at = ?
+      WHERE uid = ?
+    `
 
-      await this.db.collection('deleted_clients').doc(uid).create(client)
-      await this.clientsRef.doc(uid).delete()
+    const result = await this.db.execute(query, [new Date().toISOString(), uid])
+    if (result.rowsAffected === 0) throw new DatabaseError('Data did not persist!')
 
-      return true
-    } catch (error: any) {
-      throw new FirebaseError(error.message)
-    }
+    return true
   }
 }
 

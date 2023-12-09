@@ -1,19 +1,27 @@
-import { ClientAgreement, DataAgreement } from '@/infra/transformers'
+import { Sex } from '@/domain/enums'
+import { ClientAgreement, DataTransformer } from '@/infra/transformers'
 
 export class ClientTransformer implements ClientAgreement {
   constructor(
-    private readonly dataTransformer: DataAgreement
+    // private readonly dataTransformer: DataAgreement
   ) {}
 
   transform(params: ClientAgreement.Params): ClientAgreement.Response {
-    const { createdAt, lastEvaluatedAt, name, email, ...rest } = params
+    const dataTransformer = new DataTransformer()
 
     return {
-      ...rest,
-      name: this.dataTransformer.firstLetterUpperCaseStringTransform(name),
-      email: this.dataTransformer.lowerCaseStringTransform(email),
-      createdAt: this.dataTransformer.timestampToDateTransform(createdAt),
-      lastEvaluatedAt: this.dataTransformer.timestampToDateTransform(lastEvaluatedAt),
+      uid: params.uid,
+      userUid: params.user_uid,
+      name: dataTransformer.firstLetterUpperCaseStringTransform(params.name),
+      email: dataTransformer.lowerCaseStringTransform(params.email),
+      phone: params.phone,
+      dateOfBirth: params.date_of_birth,
+      sex: Sex.fromValue(params.sex),
+      weight: Number(params.weight),
+      height: Number(params.height),
+      lastEvaluatedAt: params.last_evaluated_at ? new Date(params.last_evaluated_at) : undefined,
+      createdAt: new Date(params.created_at),
+      deletedAt: params.deleted_at ? new Date(params.deleted_at) : undefined,
     }
   }
 }

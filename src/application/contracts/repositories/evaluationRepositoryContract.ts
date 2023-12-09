@@ -1,10 +1,9 @@
 import {
-  Client,
   SkinFold,
   Evaluation,
   Measurements,
   Bioimpedance,
-  NutritionistForm,
+  NutricionistForm,
   EvaluationListObject,
   Filters,
   PaginationFilters,
@@ -24,10 +23,14 @@ export namespace EvaluationRepositoryContract {
     export type Params = {
       uid: string
       userUid: string
-      client: Client
+      clientUid: string
+      clientName: string
+      weight: number
+      height: number
       bioimpedance?: Bioimpedance
       measurements?: Measurements
-      nutricionistForm?: NutritionistForm
+      nutricionistForm?: NutricionistForm
+      nutritionalRoutineStatus?: string
       skinFold?: SkinFold
       createdAt: Date
     }
@@ -72,7 +75,7 @@ export namespace EvaluationRepositoryContract {
 
   export namespace Delete {
     export type Params = {
-      evaluation: Evaluation
+      uid: string
     }
 
     export type Response = true

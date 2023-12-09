@@ -11,7 +11,7 @@ export class DeleteClientService implements DeleteClientUsecase {
     const client = await this.clientRepository.get({ uid })
     if (!client) return new NotFoundError('Client')
 
-    const isDeleted = await this.clientRepository.delete({ client })
+    const isDeleted = await this.clientRepository.delete({ uid })
 
     return isDeleted || new CouldNotError('delete client')
   }

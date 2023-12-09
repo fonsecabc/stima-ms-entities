@@ -1,7 +1,5 @@
 import { EvaluationListObject } from '@/domain/entities'
 
-import { Timestamp } from 'firebase-admin/firestore'
-
 export interface EvaluationListAgreement {
   transform: (params: EvaluationListAgreement.Params) => EvaluationListAgreement.Response
 }
@@ -9,14 +7,13 @@ export interface EvaluationListAgreement {
 export namespace EvaluationListAgreement {
   export type Params = {
     uid: string
-    userUid: string
-    client: {
-      uid: string
-      name: string
-    }
-    nutritionalRoutineStatus: string
-    nutritionalRoutineLink: string
-    createdAt: Timestamp
+    user_uid: string
+    client_uid: string
+    client_name: string
+    nutritional_routine_status: string
+    nutritional_routine_link: string | null
+    created_at: string
+    deleted_at: string | null
   }
 
   export type Response = EvaluationListObject

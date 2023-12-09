@@ -1,20 +1,23 @@
-import { EvaluationListAgreement, DataAgreement } from '@/infra/transformers'
+import { EvaluationListAgreement, DataTransformer } from '@/infra/transformers'
 import { NutritionalRoutineStatus } from '@/domain/enums'
 
 export class EvaluationListTransformer implements EvaluationListAgreement {
   constructor(
-    private readonly dataTransformer: DataAgreement
+    // private readonly dataTransformer: DataAgreement
   ) {}
 
   transform(params: EvaluationListAgreement.Params): EvaluationListAgreement.Response {
-    const { client, ...rest } = params
+    const dataTransformer = new DataTransformer()
 
     return {
-      ...rest,
-      clientName: this.dataTransformer.firstLetterUpperCaseStringTransform(client.name),
-      clientUid: client.uid,
-      nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(rest.nutritionalRoutineStatus),
-      createdAt: this.dataTransformer.timestampToDateTransform(rest.createdAt),
+      uid: params.uid,
+      userUid: params.user_uid,
+      clientUid: params.client_uid,
+      clientName: dataTransformer.firstLetterUpperCaseStringTransform(params.client_name),
+      nutritionalRoutineStatus: NutritionalRoutineStatus.fromValue(params.nutritional_routine_status),
+      nutritionalRoutineLink: params.nutritional_routine_link ?? undefined,
+      createdAt: new Date(params.created_at),
+      deletedAt: params.deleted_at ? new Date(params.deleted_at) : undefined,
     }
   }
 }

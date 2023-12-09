@@ -1,4 +1,4 @@
-export * from './clients/getsListMock'
+export * from './clients/getsClientListMock'
 export * from './clients/getClientMock'
 export * from './clients/getClientsEvaluationHistoryMock'
 

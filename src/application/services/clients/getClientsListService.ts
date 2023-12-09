@@ -10,7 +10,7 @@ export class GetClientsListService implements GetClientsListUsecase {
     const {
       userUid,
       paginationFilters = { pageSize: 15, currentPage: 1 },
-      filters = { by: 'name', order: 'asc' },
+      filters = { by: 'clientName', order: 'asc' },
     } = params
 
     const response = await this.clientRepository.getList({ userUid, paginationFilters, filters })

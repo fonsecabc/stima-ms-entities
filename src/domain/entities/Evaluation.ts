@@ -3,7 +3,7 @@ import {
   SkinFold,
   Measurements,
   Bioimpedance,
-  NutritionistForm,
+  NutricionistForm,
 } from '@/domain/entities'
 import { NutritionalRoutineStatus } from '@/domain/enums'
 
@@ -13,7 +13,7 @@ export type Evaluation = {
   client: Client
   bioimpedance?: Bioimpedance
   measurements?: Measurements
-  nutricionistForm?: NutritionistForm
+  nutricionistForm?: NutricionistForm
   skinFold?: SkinFold
   nutritionalRoutineStatus: NutritionalRoutineStatus
   nutritionalRoutineLink?: string

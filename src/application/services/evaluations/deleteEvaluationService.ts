@@ -12,7 +12,7 @@ export class DeleteEvaluationService implements DeleteEvaluationUsecase {
     if (!evaluation) return new NotFoundError('Evaluation')
     if (evaluation instanceof Error) return evaluation
 
-    const isDeleted = await this.evaluationRepository.delete({ evaluation })
+    const isDeleted = await this.evaluationRepository.delete({ uid })
 
     return isDeleted || new CouldNotError('delete evaluation')
   }

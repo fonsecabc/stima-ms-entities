@@ -4,7 +4,7 @@ import {
   Evaluation,
   Measurements,
   Bioimpedance,
-  NutritionistForm,
+  NutricionistForm,
 } from '@/domain/entities'
 import { Sex } from '@/domain/enums'
 import { InvalidParamError } from '@/domain/errors'
@@ -26,7 +26,7 @@ type Request = {
   }
   bioimpedance?: Bioimpedance
   measurements?: Measurements
-  nutricionistForm?: NutritionistForm
+  nutricionistForm?: NutricionistForm
   skinFold?: SkinFold
 }
 

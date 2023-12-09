@@ -15,7 +15,12 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationT
     const newestBioimpedance = newestEvaluation.bioimpedance
     const oldestBioimpedance = oldestEvaluation.bioimpedance
 
-    if (!newestBioimpedance || !oldestBioimpedance) return undefined
+    if (
+      !newestBioimpedance || !oldestBioimpedance ||
+      !newestBioimpedance.fatPercentage || !oldestBioimpedance.fatPercentage ||
+      !newestBioimpedance.muscleMassPercentage || !oldestBioimpedance.muscleMassPercentage ||
+      !newestBioimpedance.visceralFat || !oldestBioimpedance.visceralFat
+    ) return undefined
 
     const overallResults = {
       weight: newestEvaluation.client.weight - oldestEvaluation.client.weight,
@@ -41,11 +46,11 @@ export class GetOverviewFromEvaluationTask implements GetOverviewFromEvaluationT
       if (!bioimpedance || !client) return
 
       history.weight.push(this.getHistoryObject(createdAt, client.weight))
-      history.fatPercentage.push(this.getHistoryObject(createdAt, +bioimpedance.fatPercentage))
-      history.muscleMassPercentage.push(this.getHistoryObject(createdAt, +bioimpedance.muscleMassPercentage))
-      history.visceralFat.push(this.getHistoryObject(createdAt, +bioimpedance.visceralFat))
-      history.metabolicAge.push(this.getHistoryObject(createdAt, +bioimpedance.metabolicAge))
-      history.basalMetabolicRate.push(this.getHistoryObject(createdAt, +bioimpedance.basalMetabolicRate))
+      history.fatPercentage.push(this.getHistoryObject(createdAt, Number(bioimpedance?.fatPercentage)))
+      history.muscleMassPercentage.push(this.getHistoryObject(createdAt, Number(bioimpedance?.muscleMassPercentage)))
+      history.visceralFat.push(this.getHistoryObject(createdAt, Number(bioimpedance?.visceralFat)))
+      history.metabolicAge.push(this.getHistoryObject(createdAt, Number(bioimpedance?.metabolicAge)))
+      history.basalMetabolicRate.push(this.getHistoryObject(createdAt, Number(bioimpedance?.basalMetabolicRate)))
     })
 
     if (!history.weight.length) return undefined

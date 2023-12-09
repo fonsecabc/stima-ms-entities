@@ -1,4 +1,4 @@
-import { DataTransformerFactory } from '@/main/factories/transformers'
+// import { DataTransformerFactory } from '@/main/factories/transformers'
 import { EvaluationTransformer } from '@/infra/transformers'
 
 export class EvaluationTransformerFactory {
@@ -14,7 +14,7 @@ export class EvaluationTransformerFactory {
 
   public make(): EvaluationTransformer {
     return new EvaluationTransformer(
-      DataTransformerFactory.getInstance().make()
+      // DataTransformerFactory.getInstance().make()
     )
   }
 }

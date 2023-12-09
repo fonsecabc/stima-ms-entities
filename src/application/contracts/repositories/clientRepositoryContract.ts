@@ -59,7 +59,7 @@ export namespace ClientRepositoryContract {
 
   export namespace Delete {
     export type Params = {
-      client: Client
+      uid: string
     }
 
     export type Response = true
