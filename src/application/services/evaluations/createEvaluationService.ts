@@ -35,20 +35,15 @@ export class CreateEvaluationService implements CreateEvaluationUsecase {
     })
     if (isClientUpdated instanceof Error) return isClientUpdated
 
-    const updatedClient = {
-      ...createdClient,
-      lastEvaluatedAt: createdAt,
-      email: client.email,
-      height: client.height,
-      weight: client.weight,
-    }
-
     const createdEvaluation = await this.evaluationRepository.create({
       ...rest,
       uid,
       userUid,
+      clientName: client.name,
+      clientUid: createdClient.uid,
+      weight: client.weight,
+      height: client.height,
       createdAt,
-      client: updatedClient,
     })
     if (!createdEvaluation) return new CouldNotError('create evaluation')
 

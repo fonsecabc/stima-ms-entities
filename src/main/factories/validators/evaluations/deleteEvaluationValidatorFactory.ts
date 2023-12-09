@@ -17,7 +17,7 @@ export class DeleteEvaluationValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['accessToken', 'uid']) {
+    for (const field of ['uid']) {
       validations.push(new RequireParamValidation(field))
     }
 

@@ -17,7 +17,7 @@ export class UpdateEvaluationValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['accessToken', 'uid', 'attrs']) {
+    for (const field of ['uid', 'attrs']) {
       validations.push(new RequireParamValidation(field))
     }
 

@@ -17,7 +17,7 @@ export class CreateClientValidatorFactory {
 
   public make(): ValidationComposite {
     const validations: ValidatorsInterface[] = []
-    for (const field of ['accessToken', 'userUid', 'name', 'phone', 'dateOfBirth', 'sex', 'height', 'weight']) {
+    for (const field of ['userUid', 'name', 'phone', 'dateOfBirth', 'sex', 'height', 'weight']) {
       validations.push(new RequireParamValidation(field))
     }
 

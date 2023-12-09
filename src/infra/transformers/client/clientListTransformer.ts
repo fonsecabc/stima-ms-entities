@@ -1,18 +1,20 @@
-import { ClientListAgreement, DataAgreement } from '@/infra/transformers'
+import { ClientListAgreement, DataTransformer } from '@/infra/transformers'
 
 export class ClientListTransformer implements ClientListAgreement {
   constructor(
-    private readonly dataTransformer: DataAgreement
+    // private readonly dataTransformer: DataAgreement
   ) {}
 
   transform(params: ClientListAgreement.Params): ClientListAgreement.Response {
-    const { name, lastEvaluatedAt, createdAt, ...rest } = params
+    const dataTransformer = new DataTransformer()
 
     return {
-      ...rest,
-      name: this.dataTransformer.firstLetterUpperCaseStringTransform(name),
-      lastEvaluatedAt: this.dataTransformer.timestampToDateTransform(lastEvaluatedAt),
-      createdAt: this.dataTransformer.timestampToDateTransform(createdAt),
+      uid: params.uid,
+      userUid: params.user_uid,
+      name: dataTransformer.firstLetterUpperCaseStringTransform(params.name),
+      phone: params.phone,
+      lastEvaluatedAt: params.last_evaluated_at ? new Date(params.last_evaluated_at) : undefined ,
+      createdAt: new Date(params.created_at),
     }
   }
 }

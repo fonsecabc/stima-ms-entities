@@ -1,7 +1,5 @@
 import { ClientListObject } from '@/domain/entities'
 
-import { Timestamp } from 'firebase-admin/firestore'
-
 export interface ClientListAgreement {
   transform: (params: ClientListAgreement.Params) => ClientListAgreement.Response
 }
@@ -9,11 +7,11 @@ export interface ClientListAgreement {
 export namespace ClientListAgreement {
   export type Params = {
     uid: string
-    userUid: string
+    user_uid: string
     name: string
     phone: string
-    lastEvaluatedAt?: Timestamp
-    createdAt: Timestamp
+    last_evaluated_at: string | null
+    created_at: string
   }
 
   export type Response = ClientListObject

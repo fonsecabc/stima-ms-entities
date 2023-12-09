@@ -16,7 +16,9 @@ export class CreateClientService implements CreateClientUsecase {
     const client = await this.clientRepository.get({ uid })
     if (client) return client
 
-    const createdClient = await this.clientRepository.create({ uid, userUid, name, email, phone, dateOfBirth, sex, height, weight })
+    const createdAt = new Date()
+
+    const createdClient = await this.clientRepository.create({ uid, userUid, name, email, phone, dateOfBirth, sex, height, weight, createdAt })
 
     return createdClient || new CouldNotError('create client')
   }

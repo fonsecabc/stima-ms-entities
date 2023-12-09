@@ -34,6 +34,7 @@
             "error",
             2
         ],
+        "camelcase": "off",
         "semi": "off",
         "max-len": [
             "error",

@@ -1,6 +1,6 @@
-import { HttpResponse, invalidParams, notFound, success, unathorized } from '@/presentation/helpers'
+import { HttpResponse, invalidParams, notFound, success } from '@/presentation/helpers'
 import { NotFoundError } from '@/domain/errors'
-import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+// import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { DeleteEvaluationServiceFactory } from '@/main/factories/services'
 import { DeleteEvaluationValidatorFactory } from '@/main/factories/validators'
 
@@ -13,8 +13,8 @@ export async function deleteEvaluationController(request: Request): Promise<Http
   const isValid = await DeleteEvaluationValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof Error) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
-  if (isTokenValid instanceof Error) return unathorized(isTokenValid)
+  // const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
+  // if (isTokenValid instanceof Error) return unathorized(isTokenValid)
 
   const isDeleted = await DeleteEvaluationServiceFactory.getInstance().make().perform(request)
   if (!isDeleted) return notFound(new NotFoundError('Evaluation'))

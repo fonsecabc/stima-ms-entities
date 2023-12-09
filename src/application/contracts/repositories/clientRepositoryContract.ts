@@ -25,6 +25,7 @@ export namespace ClientRepositoryContract {
       sex: Sex
       height: number
       weight: number
+      createdAt: Date
     }
 
     export type Response = Client
@@ -59,7 +60,7 @@ export namespace ClientRepositoryContract {
 
   export namespace Delete {
     export type Params = {
-      client: Client
+      uid: string
     }
 
     export type Response = true

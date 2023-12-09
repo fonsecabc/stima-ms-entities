@@ -2,7 +2,7 @@ export const getClientsEvaluationHistoryMock = {
   path: '/client/get-evaluations-history',
   method: 'GET',
   query: {
-    uid: '7cd1dd7e485f532b59acf8e3eed08f12f0b845d387ff3548148b6e559a699334',
-    userUid: 'ebfa2265-59b0-4426-88c2-fd866cf1547d',
+    uid: 'cf95902f819ee0f75ac0aa37f1088a6031fb6ffc383eb6351bba501255f3ad50',
+    userUid: '2e194143-a03b-48a7-881d-7175faefee6d',
   },
 }

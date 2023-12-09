@@ -16,9 +16,8 @@ export async function getEvaluationController(request: Request): Promise<HttpRes
   // const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
   // if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
-  const evaluations = await GetEvaluationServiceFactory.getInstance().make().perform(request)
-  if (evaluations instanceof InvalidParamError) return invalidParams(evaluations)
-  if (evaluations instanceof NotFoundError) return notFound(evaluations)
+  const evaluation = await GetEvaluationServiceFactory.getInstance().make().perform(request)
+  if (evaluation instanceof NotFoundError) return notFound(evaluation)
 
-  return success(evaluations)
+  return success(evaluation)
 }

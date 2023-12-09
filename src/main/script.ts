@@ -1,15 +1,14 @@
-// import './config/moduleAlias'
-// import { initializeApp } from '@/main/app'
-// import { FirebaseRepositoryFactory } from '@/main/factories/repositories'
+import './config/moduleAlias'
+import { initializeApp } from '@/main/app'
+import { databaseConnections } from '@/main/config'
 
-// const db = FirebaseRepositoryFactory.getInstance().make().db
-// const ref = db.collection('ref')
+const db = databaseConnections.sqlite
 
-// initializeApp()
+const script = async () => {
+  await initializeApp()
 
-// const script = async () => {
+  const query = ``
+  await db.execute(query, []).then(console.log)
+}
 
-
-// }
-
-// script()
+script()

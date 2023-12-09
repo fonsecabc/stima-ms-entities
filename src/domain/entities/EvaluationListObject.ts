@@ -8,4 +8,5 @@ export interface EvaluationListObject {
     nutritionalRoutineStatus: NutritionalRoutineStatus
     nutritionalRoutineLink?: string
     createdAt: Date
+    deletedAt?: Date
 }

@@ -1,1 +1,1 @@
-export * from './FirebaseError'
+export * from './DatabaseError'

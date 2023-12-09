@@ -1,14 +1,14 @@
-import { HttpResponse, badRequest, invalidParams, success, unathorized } from '@/presentation/helpers'
+import { HttpResponse, badRequest, invalidParams, success } from '@/presentation/helpers'
 import {
   SkinFold,
   Evaluation,
   Measurements,
   Bioimpedance,
-  NutritionistForm,
+  NutricionistForm,
 } from '@/domain/entities'
 import { Sex } from '@/domain/enums'
 import { InvalidParamError } from '@/domain/errors'
-import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
+// import { VerifyAccessTokenTaskFactory } from '@/main/factories/tasks'
 import { CreateEvaluationServiceFactory } from '@/main/factories/services'
 import { CreateEvaluationValidatorFactory } from '@/main/factories/validators'
 
@@ -26,7 +26,7 @@ type Request = {
   }
   bioimpedance?: Bioimpedance
   measurements?: Measurements
-  nutricionistForm?: NutritionistForm
+  nutricionistForm?: NutricionistForm
   skinFold?: SkinFold
 }
 
@@ -34,8 +34,8 @@ export async function createEvaluationController(request: Request): Promise<Http
   const isValid = await CreateEvaluationValidatorFactory.getInstance().make().validate(request)
   if (isValid instanceof InvalidParamError) return invalidParams(isValid)
 
-  const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
-  if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
+  // const isTokenValid = await VerifyAccessTokenTaskFactory.getInstance().make().perform(request)
+  // if (isTokenValid instanceof InvalidParamError) return unathorized(isTokenValid)
 
   const evaluation = await CreateEvaluationServiceFactory.getInstance().make().perform(request)
 

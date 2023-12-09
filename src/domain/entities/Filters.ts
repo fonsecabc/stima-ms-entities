@@ -1,4 +1,8 @@
 export type Filters = {
+  search?: {
+    by: 'name'
+    value: string
+  }
   order: 'asc' | 'desc'
-  by: 'client.name' | 'client.email' | 'createdAt' | 'name'
+  by: 'clientName' | 'createdAt'
 }
