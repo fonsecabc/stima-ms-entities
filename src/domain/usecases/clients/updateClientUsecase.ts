@@ -4,7 +4,13 @@ export interface UpdateClientUsecase {
 export namespace UpdateClientUsecase {
 	export type Params = {
 		uid: string
-		attrs: object
+		attrs: {
+			email?: string
+			name?: string
+			weight?: number
+			height?: number
+			lastEvaluatedAt?: Date			
+		}
 	}
 
 	export type Response = true | Error

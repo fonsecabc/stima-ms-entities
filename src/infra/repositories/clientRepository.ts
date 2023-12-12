@@ -86,6 +86,13 @@ export class ClientRepository implements ClientRepositoryContract {
   async update(params: ClientRepositoryContract.Update.Params): Promise<ClientRepositoryContract.Update.Response> {
     const { uid, attrs } = params
 
+    if (attrs.lastEvaluatedAt) {
+      const lastEvaluatedAt = attrs.lastEvaluatedAt.toISOString()
+      delete attrs.lastEvaluatedAt
+
+      Object.assign(attrs, { last_evaluated_at: lastEvaluatedAt })
+    }
+
     const query = `
       UPDATE clients
       SET ${Object.keys(attrs).map((key) => `${key} = ?`).join(', ')}
