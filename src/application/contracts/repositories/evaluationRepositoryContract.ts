@@ -24,7 +24,6 @@ export namespace EvaluationRepositoryContract {
       uid: string
       userUid: string
       clientUid: string
-      clientName: string
       weight: number
       height: number
       bioimpedance?: Bioimpedance

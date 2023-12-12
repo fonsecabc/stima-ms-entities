@@ -26,7 +26,6 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
           uid,
           user_uid,
           client_uid,
-          client_name,
           weight,
           height,
           bioimpedance_id,
@@ -35,21 +34,20 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
           skin_fold_id,
           nutritional_routine_status,
           created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `
 
     const result = await this.db.execute(query, [
       params.uid,
       params.userUid,
       params.clientUid,
-      params.clientName,
       params.weight,
       params.height,
       bioimpedanceId,
       nutricionistFormId,
       measurementsId,
       skinFoldId,
-      params.nutritionalRoutineStatus ?? null,
+      params.nutritionalRoutineStatus,
       params.createdAt.toISOString(),
     ])
 
@@ -271,30 +269,30 @@ export class EvaluationRepository implements EvaluationRepositoryContract {
       `
 
     const result = await this.db.execute<ResultSet>(query, [
-      params.objective,
-      params.urine,
-      params.intestine,
-      params.pathologies,
-      params.medicines,
-      params.symptoms,
-      params.appetite,
-      params.wakeUpTime,
-      params.sleepTime,
-      params.foodRestrictions,
-      params.eatingHabits,
-      params.habits,
-      params.drinkingFrequency,
-      params.physicalActivity,
-      params.physicalActivityIntensity,
-      params.usualBreakfast,
-      params.usualMorningSnack,
-      params.usualLunch,
-      params.usualEveningSnack,
-      params.usualSupper,
-      params.favoriteFoods,
-      params.hatedFoods,
-      params.supplements,
-      params.note,
+      params.objective === '' || !params.objective ? null : params.objective,
+      params.urine === '' || !params.urine ? null : params.urine,
+      params.intestine === '' || !params.intestine ? null : params.intestine,
+      params.pathologies === '' || !params.pathologies ? null : params.pathologies,
+      params.medicines === '' || !params.medicines ? null : params.medicines,
+      params.symptoms === '' || !params.symptoms ? null : params.symptoms,
+      params.appetite === '' || !params.appetite ? null : params.appetite,
+      params.wakeUpTime === '' || !params.wakeUpTime ? null : params.wakeUpTime,
+      params.sleepTime === '' || !params.sleepTime ? null : params.sleepTime,
+      params.foodRestrictions === '' || !params.foodRestrictions ? null : params.foodRestrictions,
+      params.eatingHabits === '' || !params.eatingHabits ? null : params.eatingHabits,
+      params.habits === '' || !params.habits ? null : params.habits,
+      params.drinkingFrequency === '' || !params.drinkingFrequency ? null : params.drinkingFrequency,
+      params.physicalActivity === '' || !params.physicalActivity ? null : params.physicalActivity,
+      params.physicalActivityIntensity === '' || !params.physicalActivityIntensity ? null : params.physicalActivityIntensity,
+      params.usualBreakfast === '' || !params.usualBreakfast ? null : params.usualBreakfast,
+      params.usualMorningSnack === '' || !params.usualMorningSnack ? null : params.usualMorningSnack,
+      params.usualLunch === '' || !params.usualLunch ? null : params.usualLunch,
+      params.usualEveningSnack === '' || !params.usualEveningSnack ? null : params.usualEveningSnack,
+      params.usualSupper === '' || !params.usualSupper ? null : params.usualSupper,
+      params.favoriteFoods === '' || !params.favoriteFoods ? null : params.favoriteFoods,
+      params.hatedFoods === '' || !params.hatedFoods ? null : params.hatedFoods,
+      params.supplements === '' || !params.supplements ? null : params.supplements,
+      params.note === '' || !params.note ? null : params.note,
     ])
 
     if (result.rowsAffected === 0 || !result.lastInsertRowid) throw new DatabaseError('Data did not persist!')
